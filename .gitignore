@@ -1,0 +1,6 @@
+TEST-*.xml
+atpportal.war
+build/*
+supervisord.*
+tmp
+ldar

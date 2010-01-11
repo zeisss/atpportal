@@ -1,0 +1,233 @@
+body {
+    margin:0;
+    background-color: #2b3856;
+    color:white;
+    
+    position:relative;
+    /*max-width:1000px;*/
+    min-width:500px;
+    
+}
+
+a {
+    color:white;    
+}
+th {
+ text-align:left;
+}
+
+h1 a {
+    color:white;
+    text-decoration:none;
+}
+/** ------------------------------------------------------------------------ */
+#header #navigation {
+    float:right;
+    position:absolute;
+    top:20px;
+    right:20px;
+}
+
+#header {
+    padding-top:10px;
+    padding-left:20px;
+}
+
+/** ------------------------------------------------------------------------ */
+#body {
+    margin:7px;
+    margin-right:14px;
+}
+#pages {
+    margin:0px;
+    padding:0px;
+    margin-left:10px;
+    display:inline;
+}
+#pages li {
+    margin-right:5px;
+    display:inline;
+    
+    
+    
+    
+}
+#pages li a {
+    color:black;
+    background-color:white;
+    font-weight:bold;
+    
+    
+    padding-bottom:3px;
+    padding-left:8px;
+    padding-top:5px;
+    padding-right:10px;
+   
+    border-top:2px black solid;
+    border-left:1px black solid;
+    border-right:1px black solid;
+}
+#pages li a:hover {
+    /*background-color:#2b3856;*/
+}
+#content {
+    width:99%;
+    height:100%;
+    border:2px black solid;
+    background-color:white;
+    padding:5px;
+    color:black;
+    position:relative;
+    float:left;
+}
+#content a {
+ color:black;
+}
+
+#footer {
+
+}
+
+/** ------------------------------------------------------------------------ */
+div.list {
+    display:inline-block;
+    position:relative;
+    margin-bottom:5px;
+}
+div.list .title {
+    z-index:1;
+    background-color:#2b3856;
+    right:0px;
+    color:white;
+    font-weight:bold;
+    display:block;
+    height:24px;
+    padding-left:5px;
+    padding-top:4px;
+    
+    
+    border-left:1px black solid;
+    border-right:1px black solid;
+    border-top:1px black solid;
+}
+div.list div.buttonbar {
+    position:absolute;
+    color:white;
+    top:0px;
+    right:0px;
+    padding-right:5px;
+    
+    padding-top:3px;
+    
+    text-align:right;
+    z-index:2;
+    vertical-align:middle;
+}
+div.buttonbar a {
+    color:white;
+}
+div.list div.listmodel {
+  
+  border-left:1px black solid;
+  border-right:1px black solid;
+  border-bottom:1px black solid;
+  border-top:1px black solid;
+  
+  
+  height:100%;
+  margin:0px;
+  padding:0px;
+  overflow:scroll;
+}
+div.list div.listmodel div.listentry {
+    cursor:pointer;
+    padding:2px;
+    position:relative;
+    
+}
+
+/** ------------------------------------------------------------------------ */
+
+div.box {
+    display:inline-block;
+    position:relative;
+    
+    margin-bottom:10px;
+    border:1px black solid;
+}
+div.box div.buttonbar {
+    position:absolute;
+    top:0px;
+    right:0px;
+    padding-right:5px;
+    color:white;
+    
+    padding-top:3px;
+    
+    text-align:right;
+    z-index:2;
+    vertical-align:middle;
+}
+div.box .title {
+    z-index:1;
+    background-color:#2b3856;
+    right:0px;
+    color:white;
+    font-weight:bold;
+    display:block;
+    height:24px;
+    padding-left:5px;
+    padding-top:4px;
+}
+div.box div.content {
+    padding:5px;
+    margin:0px;
+    position:relative;
+    height:100%;
+    
+    overflow:scroll;
+}
+/** ------------------------------------------------------------------------ */
+
+.even {
+    
+}
+.odd {
+    background-color:#d1d1d1;
+}
+
+div.buttons {
+    margin-left:10px;
+    margin-top:20px;
+}
+div.buttons a {
+    
+}
+
+/** ------------------------------------------------------------------------ */
+div.formula {
+    position:relative;
+    padding:5px;
+}
+div.formula span.formula_name {
+    display:block;
+    margin:5px;
+    font-weight:bold;
+}
+div.formula span.formula_formula {
+    display:block;
+    padding-left:5px;
+    right:5px;
+    top:5px;
+    position:absolute;
+}
+
+span.proove_details {
+  display:block;
+  font-size:0.9em;
+  color:gray;
+  padding-left:5px;
+}
+span.proove_formula {
+ display:block;
+}

@@ -1,0 +1,12 @@
+This is a web interface for theorem provers like prover9.
+
+Installation:
+1. Setup a postgres database
+2. Apply the SQL Scripts in the database/ folder beginning with 0001-*
+3. Create a user in the accounts table with a level of 100. The login_password must be md5-hashed.
+4. Modify the /WEB-INF/web.xml(in the atpportal.war) init-params to use your database login
+5. Deploy the .war to tomcat instance
+
+License:
+Its GPLv2, see http://www.gnu.org/licenses/gpl-2.0.html
+The License applies to all files, except the .jar files in lib/, which have their own license.

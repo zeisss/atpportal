@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" 
+        version="2.4"> 
+        <!-- ========================================================== --> 
+        <!-- General --> 
+        <!-- ========================================================== --> 
+        <!-- Name the application --> 
+        <display-name>ATPPortal</display-name> 
+        <description>An online portal for formulas with an interface to theorem provers</description> 
+        
+        <!-- Set timeout to 120 minutes --> 
+        <session-config> 
+                <session-timeout>120</session-timeout> 
+        </session-config>
+        
+        <!-- ========================================================== --> 
+        <!-- Listeners --> 
+        <!-- ========================================================== --> 
+        <listener>
+                <!-- This listener initializes the tptp model, so that the servlets can use it -->
+                <!-- See the context params below -->
+                <listener-class>org.tptp.listeners.ApplicationContextListener</listener-class> 
+        </listener> 
+        <listener>
+                <listener-class>org.tptp.listeners.RoleSetterListener</listener-class> 
+        </listener> 
+        <!-- ========================================================== --> 
+        <!-- Custom Tag Libraries --> 
+        <!-- ========================================================== --> 
+        <filter>
+		<filter-name>UTF8 Setter</filter-name>
+		<filter-class>org.tptp.filters.UTF8Filter</filter-class>
+	</filter>
+
+        <filter-mapping>
+		<filter-name>UTF8 Setter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+        
+        <filter>
+		<filter-name>AdminAuthorizationFilter</filter-name>
+		<filter-class>org.tptp.filters.AuthorizationFilter</filter-class>
+                <init-param>
+                        <param-name>minimum_role</param-name>
+                        <param-value>admin</param-value>
+                </init-param>
+	</filter>
+
+        <filter-mapping>
+		<filter-name>AdminAuthorizationFilter</filter-name>
+		<url-pattern>/atp/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+        <filter-mapping>
+		<filter-name>AdminAuthorizationFilter</filter-name>
+		<url-pattern>/account/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+        <filter-mapping>
+		<filter-name>AdminAuthorizationFilter</filter-name>
+		<url-pattern>/algebra/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+
+
+        <filter>
+		<filter-name>NormalAuthorizationFilter</filter-name>
+		<filter-class>org.tptp.filters.AuthorizationFilter</filter-class>
+                <init-param>
+                        <param-name>minimum_role</param-name>
+                        <param-value>normal</param-value>
+                </init-param>
+	</filter>
+        <filter-mapping>
+		<filter-name>NormalAuthorizationFilter</filter-name>
+		<url-pattern>/queue/new</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+
+        <!-- ========================================================== --> 
+        <!-- Custom Tag Libraries --> 
+        <!-- ========================================================== --> 
+        <!-- Taglib declarations are no longer required since JSP 2.0, see Removing taglib from web.xml --> 
+        <!-- The <jsp-config> parent tag is also optional (taglib can be specified at the top level). --> 
+        <!-- 
+        <jsp-config> 
+                <taglib> 
+                        <taglib-uri>mytags</taglib-uri> 
+                        <taglib-location>/WEB-INF/jsp/mytaglib.tld</taglib-location> 
+                </taglib> 
+        </jsp-config> 
+        --> 
+        <!-- ========================================================== --> 
+        <!-- Context Parameters --> 
+        <!-- ========================================================== -->
+        <context-param>
+                <description>The connection string for the database backend</description>
+                <param-name>org.tptp.model.postgres.string</param-name>
+                <param-value>jdbc:postgresql://[::1]:5432/atpportal</param-value>
+        </context-param>
+        
+        <context-param>
+                <description>The driver class for the jdbc database backend</description>
+                <param-name>org.tptp.model.postgres.class</param-name>
+                <param-value>org.postgresql.Driver</param-value>
+        </context-param>
+        <context-param>
+                <description>The username for the database backend</description>
+                <param-name>org.tptp.model.postgres.username</param-name>
+                <param-value>postgres</param-value>
+        </context-param>
+        <context-param>
+                <description>The password string for the database backend</description>
+                <param-name>org.tptp.model.postgres.password</param-name>
+                <param-value>postgres</param-value>
+        </context-param>
+        
+        
+        
+        
+        
+        <context-param> 
+                <description>Enable debugging for the application</description> 
+                <param-name>debug</param-name> 
+                <param-value>true</param-value> 
+        </context-param>
+        <context-param> 
+                <description>The email address of the administrator, used to send error reports.</description> 
+                <param-name>webmaster</param-name> 
+                <param-value>szeiss2s@smail.inf.fh-bonn-rhein-sieg.de</param-value> 
+        </context-param>
+        
+        <!-- ========================================================== --> 
+        <!-- Servlets --> 
+        <!-- ========================================================== --> 
+        <servlet> 
+                <!-- Identification --> 
+                <servlet-name>atp</servlet-name> 
+                <servlet-class>org.tptp.servlets.AtpServlet</servlet-class> 
+                <description></description>
+        </servlet>
+        
+        <servlet-mapping> 
+                <servlet-name>atp</servlet-name> 
+                <url-pattern>/atp/*</url-pattern> 
+        </servlet-mapping>
+        
+        <servlet> 
+                <!-- Identification --> 
+                <servlet-name>account</servlet-name> 
+                <servlet-class>org.tptp.servlets.AccountServlet</servlet-class> 
+                <description></description>
+        </servlet>
+        
+        <servlet-mapping> 
+                <servlet-name>account</servlet-name> 
+                <url-pattern>/account/*</url-pattern> 
+        </servlet-mapping>
+        
+        
+        <servlet> 
+                <!-- Identification --> 
+                <servlet-name>auth</servlet-name> 
+                <servlet-class>org.tptp.servlets.AuthServlet</servlet-class> 
+                <description>This performs the initial user authentication</description>
+        </servlet>
+        
+        <servlet-mapping> 
+                <servlet-name>auth</servlet-name> 
+                <url-pattern>/auth/*</url-pattern> 
+        </servlet-mapping> 
+        
+        <servlet>
+                <servlet-name>search</servlet-name>
+                <servlet-class>org.tptp.servlets.SearchServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>search</servlet-name>
+                <url-pattern>/search</url-pattern>
+        </servlet-mapping>
+        <servlet-mapping>
+                <servlet-name>search</servlet-name>
+                <url-pattern>/search.json</url-pattern>
+        </servlet-mapping>
+        
+        <servlet> 
+                <servlet-name>formula</servlet-name> 
+                <servlet-class>org.tptp.servlets.FormulaServlet</servlet-class> 
+        </servlet> 
+        
+        <servlet-mapping> 
+                <servlet-name>formula</servlet-name> 
+                <url-pattern>/formula/*</url-pattern> 
+        </servlet-mapping>
+        
+        <servlet> 
+                <servlet-name>queue</servlet-name> 
+                <servlet-class>org.tptp.servlets.QueueServlet</servlet-class> 
+        </servlet> 
+        
+        <servlet-mapping> 
+                <servlet-name>queue</servlet-name> 
+                <url-pattern>/queue/*</url-pattern> 
+        </servlet-mapping>
+        
+        <servlet> 
+                <servlet-name>dashboard</servlet-name> 
+                <servlet-class>org.tptp.servlets.DashboardServlet</servlet-class> 
+        </servlet> 
+        
+        <servlet-mapping> 
+                <servlet-name>dashboard</servlet-name> 
+                <url-pattern>/dashboard/</url-pattern> 
+        </servlet-mapping>
+        
+        <servlet> 
+                <servlet-name>algebra</servlet-name> 
+                <servlet-class>org.tptp.servlets.AlgebraServlet</servlet-class> 
+        </servlet> 
+        
+        <servlet-mapping> 
+                <servlet-name>algebra</servlet-name> 
+                <url-pattern>/algebra/*</url-pattern> 
+        </servlet-mapping>
+        
+        <servlet> 
+                <servlet-name>proof</servlet-name> 
+                <servlet-class>org.tptp.servlets.ProofServlet</servlet-class> 
+        </servlet> 
+        
+        <servlet-mapping> 
+                <servlet-name>proof</servlet-name> 
+                <url-pattern>/proof/*</url-pattern> 
+        </servlet-mapping> 
+        
+        <!-- ========================================================== --> 
+        <!-- Filters --> 
+        <!-- ========================================================== --> 
+        <!-- Example filter to set character encoding on each request (from Tomcat servlets-examples context) --> 
+        <!--<filter> 
+                <filter-name>Set Character Encoding</filter-name> 
+                <filter-class>filters.SetCharacterEncodingFilter</filter-class> 
+                <init-param> 
+                        <param-name>encoding</param-name> 
+                        <param-value>EUC_JP</param-value> 
+                </init-param> 
+        </filter> 
+        <filter-mapping> 
+                <filter-name>Set Character Encoding</filter-name> 
+                <url-pattern>/*</url-pattern> 
+        </filter-mapping> 
+        -->
+        
+        <!-- ========================================================== --> 
+        <!-- Security --> 
+        <!-- ========================================================== --> 
+        <!-- Define roles --> 
+        <!--<security-role> 
+                <role-name>admin</role-name> 
+        </security-role> 
+        <security-role> 
+                <role-name>user</role-name> 
+        </security-role> 
+        
+        <security-constraint> 
+                <display-name>Security constraint for the /algebra folder</display-name> 
+                <web-resource-collection> 
+                        
+                        <web-resource-name>Algebra Administration</web-resource-name> 
+                        <url-pattern>/algebra/*</url-pattern> 
+        -->                
+                        <!-- If you list http methods, only those methods are protected. --> 
+                        <!-- Leave this commented out to protect all access --> 
+                        <!-- 
+                        <http-method>DELETE</http-method> 
+                        <http-method>GET</http-method> 
+                        <http-method>POST</http-method> 
+                        <http-method>PUT</http-method> 
+                        --> 
+           <!--     </web-resource-collection> 
+                <auth-constraint> 
+                        <role-name>admin</role-name> 
+                </auth-constraint> 
+        </security-constraint>
+        
+        -->
+        
+        <!-- FORM based authentication --> 
+        <!-- Leave this commented out, we will use BASIC (HTTP) authentication instead --> 
+        <!-- 
+        <login-config> 
+                <auth-method>FORM</auth-method> 
+                <form-login-config> 
+                        <form-login-page>/login.jsp</form-login-page> 
+                        <form-error-page>/error.jsp</form-error-page> 
+                </form-login-config> 
+        </login-config> 
+        --> 
+        
+        
+        <!-- Define a constraint to force SSL on all pages in the application --> 
+        <!--
+        <security-constraint> 
+                <web-resource-collection> 
+                        <web-resource-name>Entire Application</web-resource-name> 
+                        <url-pattern>/*</url-pattern> 
+                </web-resource-collection> 
+                <user-data-constraint> 
+                        <transport-guarantee>CONFIDENTIAL</transport-guarantee> 
+                </user-data-constraint> 
+        </security-constraint>
+        -->
+        <!-- ========================================================== --> 
+        <!-- Error Handler --> 
+        <!-- ========================================================== --> 
+        <!-- Define an error handler for 404 pages -->
+        <!--
+        <error-page> 
+                <error-code>404</error-code> 
+                <location>/error404.jsp</location> 
+        </error-page>
+        -->
+        <!-- Define an error handler for java.lang.Throwable --> 
+        <error-page> 
+                <exception-type>java.lang.Throwable</exception-type> 
+                <location>/error-page.jsp</location> 
+        </error-page> 
+        <!-- ========================================================== --> 
+        <!-- Extra MIME types --> 
+        <!-- ========================================================== --> 
+        <!-- Set XML mime-mapping so spreadsheets open properly instead of being sent as an octet/stream --> 
+        <mime-mapping> 
+                <extension>xls</extension> 
+                <mime-type>application/vnd.ms-excel</mime-type> 
+        </mime-mapping> 
+
+        <!-- ========================================================== --> 
+        <!-- Welcome Files --> 
+        <!-- ========================================================== --> 
+        <!-- Define, in order of preference, which file to show when no filename is defined in the path --> 
+        <!-- eg: when user goes to http://yoursite.com/ or http://yoursite.com/somefolder --> 
+        <!-- Defaults are provided in the server-wide web.xml file, such as index.jsp, index.htm --> 
+        <!-- Note: using this tag overrides the defaults, so don't forget to add them here --> 
+        <welcome-file-list> 
+                <!-- Use index.swf if present, or splash.jsp, otherwise just look for the normal defaults --> 
+                <welcome-file>index.jsp</welcome-file>
+        </welcome-file-list> 
+</web-app>
