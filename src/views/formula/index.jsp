@@ -286,7 +286,7 @@
           <button id="formula_save">Save</button>
           <button id="formula_delete">Delete</button>
           <button id="formula_export_pdf">PDF</button>
-          <button id="formula_export_mathml">MathML</button>
+          <button id="formula_export_mathml" disabled="disabled">MathML</button>
           <button id="formula_proof">Prove</button>
       </div>
       
