@@ -6,7 +6,7 @@
     <div class="box">
         <div class="title">An error occured</div>
         <div class="buttonbar">
-            <form action="${new_url != null && new_url != "" ? new_url : }">
+            <form action="${new_url != null && new_url != '' ? new_url : ''}">
                 <input type="submit" value="Continue" />
             </form>
         </div>
@@ -19,7 +19,7 @@
                     Message: ${exception.message}<br />
                     <p>
                         <pre><code><%
-                            Throwable t = requestScope.getAttribute("exception");
+                            Throwable t = (Throwable)request.getAttribute("exception");
                             t.printStackTrace(new PrintWriter(out));
                         %></code></pre>
                     </p>
