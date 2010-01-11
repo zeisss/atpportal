@@ -32,7 +32,6 @@
   <mkdir dir="${build.dir}/web" />
   <mkdir dir="${build.dir}/web/WEB-INF" />
   <mkdir dir="${build.dir}/web/WEB-INF/classes" />
-  <mkdir dir="${build.dir}/web/WEB-INF/tags" />
   <mkdir dir="${build.dir}/web/WEB-INF/lib" />
   <mkdir dir="${build.dir}/web/views" />
  </target>
@@ -65,24 +64,26 @@
  
  <target name="compile" depends="init, compile-model" description="Compiles the infra, model and servlet srcdirs to the build dir">
   <javac debug="${javac.debug}" target="${compile.target}" classpathref="classpath" srcdir="src/servlets" destdir="${build.dir}/web/WEB-INF/classes" />
+  <javac debug="${javac.debug}" target="${compile.target}" classpathref="classpath" srcdir="src/tags" destdir="${build.dir}/web/WEB-INF/classes" />
   
   <copy todir="${build.dir}/web/WEB-INF/classes">
    <fileset dir="src/views">
      <include name="**.properties" />
- 
     </fileset>
   </copy>  
   
  </target>
  
  <target name="build" depends="compile" description="Copy all folders to the build folder and war it up">
+  <copy todir="${build.dir}/web/WEB-INF">
+   <fileset dir=".">
+     <include name="*.tld" />
+   </fileset>
+  </copy>
   <copy todir="${build.dir}/web/">
    <fileset dir="public_html/" />
   </copy>
-  
-  <copy todir="${build.dir}/web/WEB-INF/tags">
-    <fileset dir="src/tags" />
-  </copy>
+ 
   <copy todir="${build.dir}/web/WEB-INF/lib">
     <fileset dir="lib" />
   </copy>

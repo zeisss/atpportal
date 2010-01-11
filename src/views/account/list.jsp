@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import='org.tptp.model.*' %>
+<%@ taglib prefix="dump" uri="dump" %>
 
 <jsp:include page="/views/layout/header.jsp" />
     <style>
@@ -76,11 +77,11 @@
                 <div class="listentry account ${rowStyle}" id="account-${account.id}">
                     <div class="account_info">
                         <div>
-                            <span class="account_display_name">${account.displayName}</span>
+                            <span class="account_display_name"><dump:dump value="${account.displayName}" mode="html" /></span>
                             <span class="account_role">(Role: ${role})</span>
                         </div>
-                        <span class="account_login_name">Username: ${account.loginName}</span>
-                        <span class="account_email">Email: <a href="mailto:${account.email}">${account.email}</a></span>
+                        <span class="account_login_name">Username: <dump:dump value="${account.loginName}" mode="html" /></span>
+                        <span class="account_email">Email: <a href="mailto:<dump:dump value="${account.email}" mode="html" />"><dump:dump value="${account.email}" mode="html" /></a></span>
                     </div>
                     <div class="account_actions">
                         <button class="button_role_locked" ${role == 'locked' ? 'disabled="disabled"' : ''}>Lock user</button>

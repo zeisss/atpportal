@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="dump" uri="dump" %>
 
 <jsp:include page="/views/layout/header.jsp">
    <jsp:param name="title" value="New Queue" />
@@ -175,7 +176,7 @@
            <div class="box" style="width:100%">
              <div class="title">Goal</div>
              <div class="content">
-               <textarea name="goaltext" style="width:95%;">${formula}</textarea>
+               <textarea name="goaltext" style="width:95%;"><dump:dump value="${formula}" mode="html" /></textarea>
              </div>
            </div>
            

@@ -1,14 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="dump" uri="dump" %>
 
 <jsp:include page="/views/layout/header.jsp">
     <jsp:param name="title" value="New Algebra" />
 </jsp:include>
 
     <div class="box">
-        <div class="title">Delete Formula ${formula.name}?</div>
+        <div class="title">Delete Formula <dump:dump value="${formula.name}" mode="html" />?</div>
         <div class="content">
             <div>
-                Are you sure you want to delete the formula &quot;${formula.name}&quot; (and all detail data)? 
+                Are you sure you want to delete the formula &quot;<dump:dump value="${formula.name}" mode="html" />&quot; (and all detail data)? 
             </div>
             
             <div class="buttons">

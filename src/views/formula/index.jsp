@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="dump" uri="dump" %>
 
 <jsp:include page="/views/layout/header.jsp">
  <jsp:param name="title" value="Fomula" />
@@ -249,7 +250,7 @@
            </c:otherwise>
          </c:choose>
          <div class="listentry algebra ${rowStyle}" id="algebra-${algebra.id}">
-             <span class="algebra_name">${algebra.name}</span>
+             <span class="algebra_name"><dump:dump value="${algebra.name}" mode="html" /></span>
          </div>
      </c:forEach>
   </div>

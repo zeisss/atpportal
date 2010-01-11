@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="dump" uri="dump" %>
 
 <jsp:include page="/views/layout/header.jsp">
     <jsp:param name="title" value="Proof" />
@@ -46,7 +47,7 @@
             <table>
                 <tr>
                     <td>Goal formula:</td>
-                    <td>${proof.queueJob.goalFormula}
+                    <td><dump:dump value="${proof.queueJob.goalFormula}" mode="html" /></td>
                 </tr>
                 <tr>
                     <td>Date:</td>
@@ -54,11 +55,40 @@
                 </tr>
                 <tr>
                     <td>User:</td>
-                    <td>${proof.queueJob.account.displayName}</td>
+                    <td><dump:dump value="${proof.queueJob.account.displayName}" mode="html" /></td>
                 </tr>
             </table>
         </div>
     </div>
+    
+    
+    <div class="list" style="width:97%">
+        <div class="title">Proved formulas</div>
+        <div class="listmodel">
+            <c:forEach var="formula" items="${proved_formulas}" varStatus="rowCounter">
+                <c:choose>
+                    <c:when test="${rowCounter.count % 2 == 0}">
+                      <c:set var="rowStyle" scope="page" value="even"/>
+                    </c:when>
+                    <c:otherwise>
+                      <c:set var="rowStyle" scope="page" value="odd"/>
+                    </c:otherwise>
+                </c:choose>
+                <div class="${rowStyle} listentry formula" id="formula-${formula.id}">
+                    <span class="formula_text">${formula.formulaText}</span>
+                    <span class="formula_name">
+                        <c:if test="${formula.name != null && formula.name != ''}">
+                            &nbsp;(<dump:dump value="${formula.name}" mode="html" />)
+                        </c:if>
+                    </span>
+                    <span class="formula_actions">
+                        <button class="formula_view">View</button>
+                    </span>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+    
     
     <div class="list" style="width:97%">
         <div class="title">Proof Steps</div>
@@ -78,33 +108,6 @@
                 <span class="proofstep_reasoning">${step.reasoning}</span>
             </div>
           </c:forEach>
-        </div>
-    </div>
-    
-    <div class="list" style="width:97%">
-        <div class="title">Proved formulas</div>
-        <div class="listmodel">
-            <c:forEach var="formula" items="${proved_formulas}" varStatus="rowCounter">
-                <c:choose>
-                    <c:when test="${rowCounter.count % 2 == 0}">
-                      <c:set var="rowStyle" scope="page" value="even"/>
-                    </c:when>
-                    <c:otherwise>
-                      <c:set var="rowStyle" scope="page" value="odd"/>
-                    </c:otherwise>
-                </c:choose>
-                <div class="${rowStyle} listentry formula" id="formula-${formula.id}">
-                    <span class="formula_text">${formula.formulaText}</span>
-                    <span class="formula_name">
-                        <c:if test="${formula.name != null && formula.name != ''}">
-                            &nbsp;(${formula.name})
-                        </c:if>
-                    </span>
-                    <span class="formula_actions">
-                        <button class="formula_view">View</button>
-                    </span>
-                </div>
-            </c:forEach>
         </div>
     </div>
     

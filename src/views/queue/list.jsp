@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="dump" uri="dump" %>
 <jsp:include page="/views/layout/header.jsp">
     <jsp:param name="title" value="Queue" />
     <jsp:param name="javascript">
@@ -87,11 +88,11 @@
                             </c:choose>
                         </span>
                         <span class="queuejob_timestamp"><fmt:formatDate value="${job.createdAt}" type="both" /></span>
-                        <span class="queuejob_author">by ${job.account.displayName}</span>
-                        <span class="queuejob_message">${job.message}</span>
+                        <span class="queuejob_author">by <dump:dump value="${job.account.displayName}" mode="html" /></span>
+                        <span class="queuejob_message"><dump:dump value="${job.message}" mode="html" /></span>
                     </div>
                     <div>
-                        <span class="queuejob_formula">${job.goalFormula}</span>
+                        <span class="queuejob_formula"><dump:dump value="${job.goalFormula}" mode="html" /></span>
                     </div>
                     
                     <div class="queuejob_actions">
