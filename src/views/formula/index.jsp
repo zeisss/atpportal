@@ -232,51 +232,59 @@
 
 
 
-
- <%-- Algebra List --%>
- <div class="list" style="width:25%; height:200px;">
-  <div class="title">Algebra</div>
-  <div class="listmodel">
-      <div class="listentry algebra even selected" id="algebra-all">
-          <span class="algebra_name">All algebras</span>
-      </div>
-      <c:forEach var="algebra" items="${algebren}" varStatus="rowCounter">
-         <c:choose>
-           <c:when test="${rowCounter.count % 2 == 0}">
-             <c:set var="rowStyle" scope="page" value="even"/>
-           </c:when>
-           <c:otherwise>
-             <c:set var="rowStyle" scope="page" value="odd"/>
-           </c:otherwise>
-         </c:choose>
-         <div class="listentry algebra ${rowStyle}" id="algebra-${algebra.id}">
-             <span class="algebra_name"><dump:dump value="${algebra.name}" mode="html" /></span>
-         </div>
-     </c:forEach>
-  </div>
- </div>
- 
- <%-- Formula List --%>
- <div class="list" style="width:73%; height:200px">
-   <div class="buttonbar">
-     <input type="hidden" id="algebra_id" name="algebra_id" value="all" />
-     
-     <input type="checkbox" name="axioms" id="axioms" checked="checked" />
-     <label for="axiom">Axiom</label>
-     
-     <input type="checkbox" name="theorems" id="theorems" />
-     <label for="theorem">Theorem</label>
-     
-     <input style="width:100px" type="text" name="filter" id="filter" value="" />
-     <button id="formula_search">Search</button>
-   </div>
-   <div class="title">Formulas</div>
-   <div class="listmodel" id="formula_listmodel">
-      <div class="listentry formula">Execute a search for results.</div>
+ <table style="width:100%">
+   <tr>
+     <td style="width:25%; height:200px;">
+          <%-- Algebra List --%>
+          <div class="list" style="width:100%; height:100%">
+           <div class="title">Algebra</div>
+           <div class="listmodel">
+               <div class="listentry algebra even selected" id="algebra-all">
+                   <span class="algebra_name">All algebras</span>
+               </div>
+               <c:forEach var="algebra" items="${algebren}" varStatus="rowCounter">
+                  <c:choose>
+                    <c:when test="${rowCounter.count % 2 == 0}">
+                      <c:set var="rowStyle" scope="page" value="even"/>
+                    </c:when>
+                    <c:otherwise>
+                      <c:set var="rowStyle" scope="page" value="odd"/>
+                    </c:otherwise>
+                  </c:choose>
+                  <div class="listentry algebra ${rowStyle}" id="algebra-${algebra.id}">
+                      <span class="algebra_name"><dump:dump value="${algebra.name}" mode="html" /></span>
+                  </div>
+              </c:forEach>
+           </div>
+          </div>
+      </td>
       
-   </div>
- </div>
-           
+      <td style="width:73%; height:200px">
+            <%-- Formula List --%>
+            <div class="list" style="width:100%; height:100%">
+              <div class="buttonbar">
+                <input type="hidden" id="algebra_id" name="algebra_id" value="all" />
+                
+                <input type="checkbox" name="axioms" id="axioms" checked="checked" />
+                <label for="axiom">Axiom</label>
+                
+                <input type="checkbox" name="theorems" id="theorems" />
+                <label for="theorem">Theorem</label>
+                
+                <input style="width:100px" type="text" name="filter" id="filter" value="" />
+                <button id="formula_search">Search</button>
+              </div>
+              <div class="title">Formulas</div>
+              <div class="listmodel" id="formula_listmodel">
+                 <div class="listentry formula">Execute a search for results.</div>
+                 
+              </div>
+            </div>
+            
+       </td>
+    </tr>
+  </table>
+                      
  <div style="clear:both" ></div><!-- New row -->
 
 

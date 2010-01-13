@@ -41,67 +41,76 @@
         });
     </script>   
         
-   <div class="list" style="width:25%; height:500px;">
-    <div class="title">Algebra</div>
-    <div class="listmodel">
-        <div class="listentry algebra even ${requestScope.algebra_id == 'all' ? 'selected' : ''}" id="algebra_all">
-            <span class="algebra_name">All algebras</span>
+<table style="width:100%">
+    <tr>
+      <td style="width:25%; height:500px;">
+     
+        <div class="list" style="width:100%; height:100%;">
+         <div class="title">Algebra</div>
+         <div class="listmodel">
+             <div class="listentry algebra even ${requestScope.algebra_id == 'all' ? 'selected' : ''}" id="algebra_all">
+                 <span class="algebra_name">All algebras</span>
+             </div>
+             <c:forEach var="algebra" items="${algebren}" varStatus="rowCounter">
+                 <c:choose>
+                   <c:when test="${rowCounter.count % 2 == 0}">
+                     <c:set var="rowStyle" scope="page" value="even"/>
+                   </c:when>
+                   <c:otherwise>
+                     <c:set var="rowStyle" scope="page" value="odd"/>
+                   </c:otherwise>
+                 </c:choose>
+                 <div class="listentry algebra ${rowStyle} ${requestScope.algebra_id == algebra.id ? 'selected' : ''}" id="algebra-${algebra.id}">
+                     <span class="algebra_name">${algebra.name}</span>
+                 </div>
+             </c:forEach>
+         </div>
         </div>
-        <c:forEach var="algebra" items="${algebren}" varStatus="rowCounter">
-            <c:choose>
-              <c:when test="${rowCounter.count % 2 == 0}">
-                <c:set var="rowStyle" scope="page" value="even"/>
-              </c:when>
-              <c:otherwise>
-                <c:set var="rowStyle" scope="page" value="odd"/>
-              </c:otherwise>
-            </c:choose>
-            <div class="listentry algebra ${rowStyle} ${requestScope.algebra_id == algebra.id ? 'selected' : ''}" id="algebra-${algebra.id}">
-                <span class="algebra_name">${algebra.name}</span>
-            </div>
-        </c:forEach>
-    </div>
-   </div>
+      </td>
    
-   <div class="list" style="width:73%; height:500px;">
-    <div class="buttonbar">
-        <form method="GET" id="search_form" action="<c:url value='/search' />">
-            <input type="hidden" name="algebra_id" id="algebra_id" value="${requestScope.algebra_id}" />
-            
-            <input type="checkbox" name="axioms" value="true" ${requestScope.axioms == 'true' ? 'checked="checked"' : ''} />
-            <label for="Axiom">Axiom</label>
-           
-            <input type="checkbox" name="theorems" value="true" ${requestScope.theorems == 'true' ? 'checked="checked"' : ''} />
-            <label for="theorem">Theorem</label>
-           
-            <spacer style="width:10px" />
-           
-            <input style="width:100px" type="text" name="filter" id="filter" value="${requestScope.filter}" />
-           
-            <input type="submit" value="Search" />
-        </form>
-     </div>
-     <div class="title" id="search_title">Formulas</div>
-     <div class="listmodel">
-        
-        <c:forEach var="formula" items="${formulas}" varStatus="rowCounter">
-            <c:choose>
-              <c:when test="${rowCounter.count % 2 == 0}">
-                <c:set var="rowStyle" scope="page" value="odd"/>
-              </c:when>
-              <c:otherwise>
-                <c:set var="rowStyle" scope="page" value="even"/>
-              </c:otherwise>
-            </c:choose>
-            
-            <div class="listentry formula ${rowStyle}" id="formula-${formula.id}">
-                <span class="formula_name">&nbsp;${formula.name}</span>
-                <span class="formula_formula">${formula.formulaText}</span>
+      <td style="width:73%; height:500px">
+        <div class="list" style="width:100%; height:100%;">
+         <div class="buttonbar">
+             <form method="GET" id="search_form" action="<c:url value='/search' />">
+                 <input type="hidden" name="algebra_id" id="algebra_id" value="${requestScope.algebra_id}" />
+                 
+                 <input type="checkbox" name="axioms" value="true" ${requestScope.axioms == 'true' ? 'checked="checked"' : ''} />
+                 <label for="Axiom">Axiom</label>
                 
-            </div>
-        </c:forEach>
-     </div>
-   </div>
+                 <input type="checkbox" name="theorems" value="true" ${requestScope.theorems == 'true' ? 'checked="checked"' : ''} />
+                 <label for="theorem">Theorem</label>
+                
+                 <spacer style="width:10px" />
+                
+                 <input style="width:100px" type="text" name="filter" id="filter" value="${requestScope.filter}" />
+                
+                 <input type="submit" value="Search" />
+             </form>
+          </div>
+          <div class="title" id="search_title">Formulas</div>
+          <div class="listmodel">
+             
+             <c:forEach var="formula" items="${formulas}" varStatus="rowCounter">
+                 <c:choose>
+                   <c:when test="${rowCounter.count % 2 == 0}">
+                     <c:set var="rowStyle" scope="page" value="odd"/>
+                   </c:when>
+                   <c:otherwise>
+                     <c:set var="rowStyle" scope="page" value="even"/>
+                   </c:otherwise>
+                 </c:choose>
+                 
+                 <div class="listentry formula ${rowStyle}" id="formula-${formula.id}">
+                     <span class="formula_name">&nbsp;${formula.name}</span>
+                     <span class="formula_formula">${formula.formulaText}</span>
+                     
+                 </div>
+             </c:forEach>
+          </div>
+        </div>
+      </td>
+    </tr>
+</table>
    
    <div style="clear:both" ></div><!-- New row -->
    

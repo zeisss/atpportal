@@ -187,33 +187,44 @@
              <div class="title">Axioms</div>
              
              <div class="content" style="height:300px">
-               <div><label>Algebra</label>
-                  <select id="algebra">
-                    <c:forEach var="algebra" items="${algebren}">
-                      <option value="${algebra.id}">${algebra.name}</option>
-                    </c:forEach>
-                 </select></div>
-               <div style="clear:both" ></div>
-           
-               <div class="list" style="width:48%; height:200px;">
-                 <div class="title">Select some</div>
-                <div class="listmodel" id="algebra_axioms">
-                 
-                    <div class="listentry odd">
-                        <span class="formula_name">Loading ...</span>
-                    </div>
-                    
-                </div>
-               </div>
-        
-               <div class="list" style="width:47%; height:200px">
-                    <div class="title">Selected formulas</div>
-                    <div class="listmodel" id="selected_axioms">
-                       <div class="listentry even">
-                           <span class="formula_name">(Select an axiom on the left by clicking on it)</span>
-                       </div>
-                    </div>
-                  </div>
+             
+               <table style="width:100%; height:300px">
+                <tr style="height:30px">
+                 <td>
+                     <div><label>Algebra</label>
+                        <select id="algebra">
+                          <c:forEach var="algebra" items="${algebren}">
+                            <option value="${algebra.id}">${algebra.name}</option>
+                          </c:forEach>
+                       </select></div>
+                  </td>
+                </tr>
+               
+                <tr>
+                  <td valign="top" style="width:48%; height:270px; overflow:auto">
+                     <div class="list" style="width:100%; height:200px;">
+                       <div class="title">Select some</div>
+                      <div class="listmodel" id="algebra_axioms">
+                       
+                          <div class="listentry odd">
+                              <span class="formula_name">Loading ...</span>
+                          </div>
+                          
+                      </div>
+                     </div>
+                  </td>
+                  <td valign="top" style="width:47%; height:270px; overflow:auto">
+                     <div class="list" style="width:100%; height:200px">
+                        <div class="title">Selected formulas</div>
+                        <div class="listmodel" id="selected_axioms">
+                           <div class="listentry even">
+                               <span class="formula_name">(Select an axiom on the left by clicking on it)</span>
+                           </div>
+                        </div>
+                      </div>
+                  </td>
+                </tr>
+               </table>
                
              </div>
            </div>
