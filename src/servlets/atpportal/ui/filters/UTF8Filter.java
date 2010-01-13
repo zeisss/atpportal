@@ -1,11 +1,11 @@
-package org.tptp.filters;
+package atpportal.ui.filters;
 
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
 
-import org.tptp.*;
+import atpportal.ui.*;
 
 /**
  * This filter sets the content type of the response to text/html or text/javascript based on the request URI.

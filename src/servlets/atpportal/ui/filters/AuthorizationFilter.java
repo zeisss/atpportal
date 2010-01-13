@@ -1,4 +1,4 @@
-package org.tptp.filters;
+package atpportal.ui.filters;
 
 import java.util.*;
 import javax.servlet.*;

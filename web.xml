@@ -21,17 +21,17 @@
         <listener>
                 <!-- This listener initializes the tptp model, so that the servlets can use it -->
                 <!-- See the context params below -->
-                <listener-class>org.tptp.listeners.ApplicationContextListener</listener-class> 
+                <listener-class>atpportal.ui.listeners.ApplicationContextListener</listener-class> 
         </listener> 
         <listener>
-                <listener-class>org.tptp.listeners.RoleSetterListener</listener-class> 
+                <listener-class>atpportal.ui.listeners.RoleSetterListener</listener-class> 
         </listener> 
         <!-- ========================================================== --> 
         <!-- Custom Tag Libraries --> 
         <!-- ========================================================== --> 
         <filter>
 		<filter-name>UTF8 Setter</filter-name>
-		<filter-class>org.tptp.filters.UTF8Filter</filter-class>
+		<filter-class>atpportal.ui.filters.UTF8Filter</filter-class>
 	</filter>
 
         <filter-mapping>
@@ -42,7 +42,7 @@
         
         <filter>
 		<filter-name>AdminAuthorizationFilter</filter-name>
-		<filter-class>org.tptp.filters.AuthorizationFilter</filter-class>
+		<filter-class>atpportal.ui.filters.AuthorizationFilter</filter-class>
                 <init-param>
                         <param-name>minimum_role</param-name>
                         <param-value>admin</param-value>
@@ -68,7 +68,7 @@
 
         <filter>
 		<filter-name>NormalAuthorizationFilter</filter-name>
-		<filter-class>org.tptp.filters.AuthorizationFilter</filter-class>
+		<filter-class>atpportal.ui.filters.AuthorizationFilter</filter-class>
                 <init-param>
                         <param-name>minimum_role</param-name>
                         <param-value>normal</param-value>
@@ -120,26 +120,13 @@
         
         
         
-        
-        
-        <context-param> 
-                <description>Enable debugging for the application</description> 
-                <param-name>debug</param-name> 
-                <param-value>true</param-value> 
-        </context-param>
-        <context-param> 
-                <description>The email address of the administrator, used to send error reports.</description> 
-                <param-name>webmaster</param-name> 
-                <param-value>szeiss2s@smail.inf.fh-bonn-rhein-sieg.de</param-value> 
-        </context-param>
-        
         <!-- ========================================================== --> 
         <!-- Servlets --> 
         <!-- ========================================================== --> 
         <servlet> 
                 <!-- Identification --> 
                 <servlet-name>atp</servlet-name> 
-                <servlet-class>org.tptp.servlets.AtpServlet</servlet-class> 
+                <servlet-class>atpportal.ui.servlets.AtpServlet</servlet-class> 
                 <description></description>
         </servlet>
         
@@ -151,7 +138,7 @@
         <servlet> 
                 <!-- Identification --> 
                 <servlet-name>account</servlet-name> 
-                <servlet-class>org.tptp.servlets.AccountServlet</servlet-class> 
+                <servlet-class>atpportal.ui.servlets.AccountServlet</servlet-class> 
                 <description></description>
         </servlet>
         
@@ -164,7 +151,7 @@
         <servlet> 
                 <!-- Identification --> 
                 <servlet-name>auth</servlet-name> 
-                <servlet-class>org.tptp.servlets.AuthServlet</servlet-class> 
+                <servlet-class>atpportal.ui.servlets.AuthServlet</servlet-class> 
                 <description>This performs the initial user authentication</description>
         </servlet>
         
@@ -175,7 +162,7 @@
         
         <servlet>
                 <servlet-name>search</servlet-name>
-                <servlet-class>org.tptp.servlets.SearchServlet</servlet-class>
+                <servlet-class>atpportal.ui.servlets.SearchServlet</servlet-class>
         </servlet>
         <servlet-mapping>
                 <servlet-name>search</servlet-name>
@@ -188,7 +175,7 @@
         
         <servlet> 
                 <servlet-name>formula</servlet-name> 
-                <servlet-class>org.tptp.servlets.FormulaServlet</servlet-class> 
+                <servlet-class>atpportal.ui.servlets.FormulaServlet</servlet-class> 
         </servlet> 
         
         <servlet-mapping> 
@@ -198,7 +185,7 @@
         
         <servlet> 
                 <servlet-name>queue</servlet-name> 
-                <servlet-class>org.tptp.servlets.QueueServlet</servlet-class> 
+                <servlet-class>atpportal.ui.servlets.QueueServlet</servlet-class> 
         </servlet> 
         
         <servlet-mapping> 
@@ -208,7 +195,7 @@
         
         <servlet> 
                 <servlet-name>dashboard</servlet-name> 
-                <servlet-class>org.tptp.servlets.DashboardServlet</servlet-class> 
+                <servlet-class>atpportal.ui.servlets.DashboardServlet</servlet-class> 
         </servlet> 
         
         <servlet-mapping> 
@@ -218,7 +205,7 @@
         
         <servlet> 
                 <servlet-name>algebra</servlet-name> 
-                <servlet-class>org.tptp.servlets.AlgebraServlet</servlet-class> 
+                <servlet-class>atpportal.ui.servlets.AlgebraServlet</servlet-class> 
         </servlet> 
         
         <servlet-mapping> 
@@ -228,7 +215,7 @@
         
         <servlet> 
                 <servlet-name>proof</servlet-name> 
-                <servlet-class>org.tptp.servlets.ProofServlet</servlet-class> 
+                <servlet-class>atpportal.ui.servlets.ProofServlet</servlet-class> 
         </servlet> 
         
         <servlet-mapping> 

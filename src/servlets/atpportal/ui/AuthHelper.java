@@ -1,4 +1,4 @@
-package org.tptp;
+package atpportal.ui;
 
 import org.tptp.model.*;
 

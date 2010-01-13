@@ -1,4 +1,4 @@
-package org.tptp.servlets;
+package atpportal.ui.servlets;
 
 import org.tptp.*;
 import javax.servlet.*;
