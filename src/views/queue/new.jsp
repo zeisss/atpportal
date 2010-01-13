@@ -104,9 +104,14 @@
    * and shows the rest in the left axiom list.
    */
   function loadAlgebraFormulas(algebra_id) {
-     url = "<c:url value='/search.json' />?algebra_id=" + algebra_id + "&axioms=true&filter=";
+    formulaURL = "<c:url value='/search.json' />?algebra_id=" + encodeURIComponent(algebra_id);
+    formulaURL += "&filter=" + encodeURIComponent($("#filter").attr("value"));
+    formulaURL += "&axioms=" + ($("#axioms").attr("checked") ? "true" : "false");
+    formulaURL += "&theorems=" + ($("#theorems").attr("checked") ? "true" : "false");
+    
+     // url = "<c:url value='/search.json' />?algebra_id=" + algebra_id + "&axioms=true&theorems=true&filter=";
      
-     $.getJSON(url, function(formulas) {
+     $.getJSON(formulaURL, function(formulas) {
         f = [];
         for ( x in formulas ) {
           // If the formula is NOT selected
@@ -137,6 +142,11 @@
     algebraAxioms.addFormulaObject(object);
   }
   
+  function filterAlgebras() {
+      loadAlgebraFormulas($("#algebra").val());
+      return false;
+  }
+  
   /**
    * Initialization code: Register the event handlers for the several buttons
    */
@@ -146,12 +156,20 @@
     
     // Selected/right axiom tabl
     $("#selected_axioms .formula").live("click", right_axiom_clicked);
+    
+    $("button#formula_search").click(filterAlgebras);
+    
+    // PRevent pressing enter in the filter box
+    $("#filter").keypress(function (e) {
+      if ( e.which == 13 ) {
+         return filterAlgebras();
+      }
+      return true;
+      
+    });
   
     // Algebra selection
-    $("#algebra").change(function() {
-     id = $(this).val();
-     loadAlgebraFormulas(id);
-    })
+    $("#algebra").change(filterAlgebras);
     
     loadAlgebraFormulas($("#algebra").val());
     
@@ -191,12 +209,22 @@
                <table style="width:100%; height:300px">
                 <tr style="height:30px">
                  <td>
-                     <div><label>Algebra</label>
+                     <div>
+                        <label>Algebra</label>
                         <select id="algebra">
                           <c:forEach var="algebra" items="${algebren}">
                             <option value="${algebra.id}">${algebra.name}</option>
                           </c:forEach>
-                       </select></div>
+                        </select>
+                        <input type="checkbox" name="axioms" id="axioms" checked="checked" />
+                        <label for="axiom">Axiom</label>
+                        
+                        <input type="checkbox" name="theorems" id="theorems" />
+                        <label for="theorem">Theorem</label>
+                        
+                        <input style="width:100px" type="text" name="filter" id="filter" value="" />
+                        <button id="formula_search">Search</button>
+                     </div>
                   </td>
                 </tr>
                

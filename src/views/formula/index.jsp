@@ -219,14 +219,17 @@
      window.location = "<c:url value='/formula' />/" + $("#formula_id").attr("value") + ".mathml";
      return false;
    });
+   
    $("#formula_proof").click(function() {
     window.location = "<c:url value='/queue/new' />?goalText=" + encodeURIComponent($("#formula_text").text());
     return false;
    });
+   
    $("#formula_save").click(saveFormula);
    
    $("#reference_add").click(function() { reference_add(); return false; });
    $(".reference_delete").live("click", reference_delete);
+   
    $(".algebra").click(function() {
      id = $(this).attr("id").substring("algebra-".length);
      $("#algebra_id").attr("value", id);
@@ -240,6 +243,14 @@
    $("#formula_search").click(executeSearch);
    $(".formula").live("click", formulaSelected);
    
+   // Prevent pressing enter in the filter box
+   $("#filter").keypress(function (e) {
+      if ( e.which == 13 ) {
+         return executeSearch();
+      }
+      return true;
+      
+    });
    
    
    reference_add();

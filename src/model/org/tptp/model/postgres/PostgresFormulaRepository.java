@@ -22,9 +22,6 @@ public class PostgresFormulaRepository extends FormulaRepository{
         if ( filter == null ) {
             filter = "";
         }
-        if ( !axioms && !theorems) {
-            return new HashSet<Formula>();
-        }
         
         // If no ID is given for the algebra, whe can not use the axiom / theorem -info
         if ( algebraId == -1 ) {
@@ -33,6 +30,11 @@ public class PostgresFormulaRepository extends FormulaRepository{
                 new Object[]{"%" + filter + "%"}
             );
         } else {
+            // No axioms and no theorems, what shall we return?
+            if ( !axioms && !theorems) {
+                return new HashSet<Formula>();
+            }
+            
             // Show all formulas linked with the given algebra
             if ( axioms && theorems ) {
                 return fetchWithSql(
