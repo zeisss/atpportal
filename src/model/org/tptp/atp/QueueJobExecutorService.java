@@ -83,14 +83,11 @@ public class QueueJobExecutorService {
         final Set<Algebra> finalAlgebras = new HashSet<Algebra>();
         
         algebras: for ( Algebra a : algebras ) {
-            Set<Formula> axioms = fRepo.getAxiomsByAlgebra(a);
-            if ( axioms.containsAll(input)) {
+            Set<Formula> formulas = fRepo.getByAlgebra(a);
+            if ( formulas.containsAll(input)) {
                 finalAlgebras.add(a);
             }
-            
         }
-        
-        
         
         // Execute this inside a transaction
         WorkManager.run(new Runnable() { public void run() {
