@@ -236,7 +236,7 @@
    <tr>
      <td style="width:25%; height:200px;">
           <%-- Algebra List --%>
-          <div class="list" style="width:100%; height:100%">
+          <div class="list" style="width:100%; height:200px">
            <div class="title">Algebra</div>
            <div class="listmodel">
                <div class="listentry algebra even selected" id="algebra-all">
@@ -261,7 +261,7 @@
       
       <td style="width:73%; height:200px">
             <%-- Formula List --%>
-            <div class="list" style="width:100%; height:100%">
+            <div class="list" style="width:100%; height:200px">
               <div class="buttonbar">
                 <input type="hidden" id="algebra_id" name="algebra_id" value="all" />
                 

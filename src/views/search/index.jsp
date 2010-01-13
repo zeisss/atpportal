@@ -45,7 +45,7 @@
     <tr>
       <td style="width:25%; height:500px;">
      
-        <div class="list" style="width:100%; height:100%;">
+        <div class="list" style="width:100%; height:500px;">
          <div class="title">Algebra</div>
          <div class="listmodel">
              <div class="listentry algebra even ${requestScope.algebra_id == 'all' ? 'selected' : ''}" id="algebra_all">
@@ -69,7 +69,7 @@
       </td>
    
       <td style="width:73%; height:500px">
-        <div class="list" style="width:100%; height:100%;">
+        <div class="list" style="width:100%; height:500px">
          <div class="buttonbar">
              <form method="GET" id="search_form" action="<c:url value='/search' />">
                  <input type="hidden" name="algebra_id" id="algebra_id" value="${requestScope.algebra_id}" />
