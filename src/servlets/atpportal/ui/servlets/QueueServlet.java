@@ -84,7 +84,6 @@ public class QueueServlet extends AtpPortalServlet {
         AlgebraRepository repo = AlgebraRepository.getInstance();
         AtpRepository atpRepo = AtpRepository.getInstance();
         
-        
         Set<Algebra> algebren = repo.getAll();
         request.setAttribute("algebren", algebren);
         

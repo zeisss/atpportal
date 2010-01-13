@@ -2,6 +2,9 @@ package org.tptp.atp;
 
 import org.tptp.model.*;
 import java.util.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * This class takes a new job from the JobQueueRepository and uses the {@link TheoremProver} interface
@@ -40,6 +43,8 @@ public class QueueJobExecutorService {
                     message = "An error occured: " + exc.getMessage() + "(" + exc.getClass().getName() + ")";
                 }
                 job.setMessage(message);
+                job.setInputText(result.getInputText());
+                job.setOutputText(result.getOutputText());
                 job.setStatus(QueueJob.STATUS_ERROR);
                 jobRepo.update(job);
             }
@@ -48,7 +53,12 @@ public class QueueJobExecutorService {
         }
         catch (Exception exc)
         {
-            job.setMessage("An error occured: " + exc.getMessage() + "(" + exc.getClass().getName() + ")");
+            StringWriter writer = new StringWriter();
+            exc.printStackTrace(new PrintWriter(writer));
+            
+            job.setMessage("An exception occured: " + exc.getMessage() + "(" + exc.getClass().getName() + ")");
+            job.setInputText("No input available");
+            job.setOutputText("No output available\n\nException Stacktrace:\n   " + writer.toString());
             job.setStatus(QueueJob.STATUS_ERROR);
             jobRepo.update(job);
             throw new ModelException(exc);

@@ -126,9 +126,11 @@
      $("#formula_axiom_algebras").css("display", "block");
      
      span = $("#formula_axiom_algebras span");
+     s = "";
      for(x in formula.axiom_algebras) {
-      span.append(formula.axiom_algebras[x]);
+      s += formula.axiom_algebras[x] + ", ";
      }
+     span.append(s.substring(0,s.length-2));
     }
     
     if ( formula.theorem_algebras.length == 0 ) {
@@ -137,9 +139,11 @@
      $("#formula_theorem_algebras").css("display", "block");
      
      span = $("#formula_theorem_algebras span");
+     s = "";
      for(x in formula.theorem_algebras) {
-      span.append(formula.theorem_algebras[x]);
+      s += formula.theorem_algebras[x] + ", ";
      }
+     span.append(s.substring(0,s.length-2));
     }
     
     // Proof    
@@ -165,6 +169,22 @@
         "</div>");
 
     }
+    
+    setFormulaMaskActive(true);
+  }
+  
+  function setFormulaMaskActive(active) {
+     if ( active ) {
+      $("form input").removeAttr("readonly");
+      $("form textarea").removeAttr("readonly");
+      
+      $("form button").removeAttr("disabled");
+     } else {
+      $("form input").attr("readonly", "readonly");
+      $("form textarea").attr("readonly","readonly");
+      
+      $("form button").attr("disabled","disabled");
+     }
   }
    
    
@@ -220,8 +240,13 @@
    $("#formula_search").click(executeSearch);
    $(".formula").live("click", formulaSelected);
    
+   
+   
    reference_add();
    reference_add();
+   
+   // Deactive everything, until sthg is loaded.
+   setFormulaMaskActive(false);
    
    <c:if test="${formula != null}">
     loadFormula(<jsp:include page='json.jsp' />);
@@ -293,10 +318,16 @@
       <span class="title">Formula</span>
       <div class="buttonbar">
           <button id="formula_save">Save</button>
-          <button id="formula_delete">Delete</button>
+          <%--
           <button id="formula_export_pdf">PDF</button>
-          <button id="formula_export_mathml" disabled="disabled">MathML</button>
-          <button id="formula_proof">Prove</button>
+          <button id="formula_export_mathml">MathML</button>
+          --%>
+          <c:if test="${user_role == 'admin'}">
+            <button id="formula_delete">Delete</button>
+          </c:if>
+          <c:if test="${user_role == 'normal' || user_role == 'admin'}">
+            <button id="formula_proof">Prove</button>
+          </c:if>
       </div>
       
       <div class="content">
