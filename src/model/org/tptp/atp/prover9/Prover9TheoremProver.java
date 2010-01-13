@@ -57,23 +57,8 @@ public class Prover9TheoremProver extends TheoremProver {
         try {
             return this.execute(properties, input);
         } catch (Exception exc) {
-            return new Result(false, exc, this);
+            return new Result(false, exc, this, input, "No output. See exception.");
         }
-    }
-    
-    /**
-     * Execute the prover9 system for the given input data.
-     */
-    private Result execute(Properties properties, String input) throws IOException  {
-        // Write the input to a temporary file
-        File temp = File.createTempFile("prover9_input_", ".tmp");
-        temp.deleteOnExit();
-        FileOutputStream fout = new FileOutputStream(temp);
-        fout.write(input.getBytes("UTF-8"));
-        fout.close();
-        
-        // Call the next step
-        return this.execute(properties, temp);
     }
     
     /**
@@ -83,7 +68,9 @@ public class Prover9TheoremProver extends TheoremProver {
      * @see #parseOutput()
      * @see Prover9OutputParser
      */
-    private Result execute(Properties properties, File inputFile) throws IOException {
+    private Result execute(Properties properties, String input) throws IOException {
+        File inputFile = writeTemporaryFile(input);
+        
         // Some vars for storing the parsing results (used later)
         StringBuffer output = new StringBuffer();
         Set<Formula> used = new HashSet<Formula>();
@@ -113,9 +100,9 @@ public class Prover9TheoremProver extends TheoremProver {
             
             // Create the result object
             if ( exitCode == 0 ) {
-                return new Result(true, used, proved, steps, details, this);    
+                return new Result(true, used, proved, steps, details, this, input, output.toString());    
             } else {
-                throw new IllegalStateException("Prover exitcode not 0!");
+                return new Result(false, new AtpException("Exitcode: " + exitCode), this, input, output.toString());
             }
             
         } catch (InterruptedException exc) {
@@ -149,6 +136,17 @@ public class Prover9TheoremProver extends TheoremProver {
         input.append("end_of_list.").append(NL);
         
         return input.toString();
+    }
+    
+    protected File writeTemporaryFile(String content) throws IOException {
+        // Write the input to a temporary file
+        File temp = File.createTempFile("prover9_input_", ".tmp");
+        temp.deleteOnExit();
+        FileOutputStream fout = new FileOutputStream(temp);
+        fout.write(content.getBytes("UTF-8"));
+        fout.close();
+        
+        return temp;
     }
     
     /**

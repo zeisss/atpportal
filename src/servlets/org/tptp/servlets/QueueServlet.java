@@ -14,20 +14,67 @@ public class QueueServlet extends AtpPortalServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+        log("GET /queue | " + request.getRequestURI());
+        
         if ( request.getRequestURI().endsWith("/queue/new")) {
             doGetNew(request, response);
         } else if ( request.getRequestURI().endsWith("/queue/list")) {
             doGetIndex(request, response);
         } else {
-            this.redirectTo("/queue/list", request, response);
+            String r = request.getRequestURI();
+            int i = r.indexOf("/queue/");
+            
+            if ( i == -1) {
+                this.redirectTo("/queue/list", request, response);    
+            } else {
+                i += "/queue/".length();
+                int j = r.indexOf("/", i);
+                if ( j == -1 ) {
+                    this.redirectTo("/queue/list", request, response);   
+                } else {
+                    String id = r.substring(i, j);
+                    doGetResource(id, request, response);
+                    
+                    
+                }
+                
+                
+            }
         }
     }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+        log("POST /queue | " + request.getRequestURI());
+        
         if ( request.getRequestURI().endsWith("/queue/new")) {
             doPostNew(request, response);
+        } else {
+            this.redirectTo("/queue/list", request, response);   
+        }
+    }
+    
+    public void doGetResource(String id, HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        QueueJobRepository jobRepo = QueueJobRepository.getInstance();
+        
+        try {
+            QueueJob job = jobRepo.get(Long.valueOf(id));
+            response.setContentType("text/plain");
+            PrintWriter writer = response.getWriter();
+            
+            if (request.getRequestURI().endsWith("/input")) {
+                writer.println(job.getInputText());
+            } else if ( request.getRequestURI().endsWith("/output")) {
+                writer.println(job.getOutputText());
+            } else {
+                this.redirectTo("/queue/list", request, response);   
+            }
+            
+        } catch (Exception exc) {
+            this.handleException(exc, request, response, "/queue/list");
         }
     }
     

@@ -11,9 +11,7 @@ import java.io.*;
 public class AlgebraServlet extends AtpPortalServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
-    {
-        // TODO: Add security checks
-        
+    {   
         AlgebraRepository repo = AlgebraRepository.getInstance();
         if ( request.getRequestURI().endsWith("/algebra/new")) {
             // Create a new algebra and forward to the overview

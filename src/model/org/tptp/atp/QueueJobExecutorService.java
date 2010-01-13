@@ -33,7 +33,15 @@ public class QueueJobExecutorService {
                 
                 storeProof(job, result);    
             } else {
-                throw result.getException();
+                String message = "Unsuccessfull job";
+                if ( result.getException() != null)
+                {
+                    Exception exc = result.getException();
+                    message = "An error occured: " + exc.getMessage() + "(" + exc.getClass().getName() + ")";
+                }
+                job.setMessage(message);
+                job.setStatus(QueueJob.STATUS_ERROR);
+                jobRepo.update(job);
             }
             
             return true;
@@ -85,6 +93,12 @@ public class QueueJobExecutorService {
             }
             pRepo.save(proof); // Ok, our proof now has a ID
             
+            // Now link it to the queue
+            job.setProofId(proof.getId());
+            job.setInputText(result.getInputText());
+            job.setOutputText(result.getOutputText());
+            jobRepo.update(job);
+            
             // Now, iterate over the used and proves formulas and
             // check if they might already exist and afterwards
             // link them to the proof
@@ -105,8 +119,7 @@ public class QueueJobExecutorService {
                 }
             }
             
-            // Link the job to this proof
-            job.setProofId(proof.getId());
+            // Mark the job as processed
             job.setStatus(QueueJob.STATUS_PROCESSED);
             jobRepo.update(job);
         }});

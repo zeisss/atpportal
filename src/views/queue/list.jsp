@@ -53,6 +53,16 @@
                id = $(this).parent().parent().attr("id").substring("queuejob-".length);
                window.location = "<c:url value='/queue/new' />?queuejob_id=" + id;
             });
+            
+            $("button.queuejob_input").click(function() {
+               id = $(this).parent().parent().attr("id").substring("queuejob-".length);
+               window.location = "<c:url value='/queue/' />" + id + "/input";
+            });
+            
+            $("button.queuejob_output").click(function() {
+               id = $(this).parent().parent().attr("id").substring("queuejob-".length);
+               window.location = "<c:url value='/queue/' />" + id + "/output";
+            });
         });
     </script>
     
@@ -99,6 +109,9 @@
                         <c:if test="${job.status == 3}">
                             <span class="queuejob_proof"><button id="proof-${job.proofId}">View Proof</button></span>
                         </c:if>
+                        <button class="queuejob_input">View Input</button>
+                        <button class="queuejob_output">View Output</button>
+                        
                         <c:if test="${user_role == 'normal' || user_role == 'admin'}">
                             <button class="queuejob_new">New proof</button>
                         </c:if>
