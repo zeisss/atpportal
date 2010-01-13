@@ -15,12 +15,5 @@ public abstract class OperatorRepository {
     /**
      * Returns a {@link Set} of Operators where the name is equal to the given name.
      */
-    public Set<Operator> getOperatorsByName(String name) {
-        return getOperatorsByString(name);
-    }
-    
-    /**
-     * @deprecated
-     */
-    public abstract Set<Operator> getOperatorsByString(String type);
+    public abstract Set<Operator> getOperatorsByName(String name);
 } 

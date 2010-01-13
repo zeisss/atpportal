@@ -30,27 +30,30 @@ public class PostgresOperatorRepository extends OperatorRepository {
         String symbol = rs.getString(5);
         if ( rs.wasNull()) symbol = "";
         
-        int arity = rs.getInt(6);
+        String symbol_intern = rs.getString(6);
+        if ( rs.wasNull()) symbol_intern = "";
+        
+        int arity = rs.getInt(7);
         if ( rs.wasNull()) arity = -1;
         
-        String description = rs.getString(7);
+        String description = rs.getString(8);
         if ( rs.wasNull()) description = "";
 
-        String comment = rs.getString(8);
+        String comment = rs.getString(9);
         if ( rs.wasNull()) comment = "";        
-        Operator operator = new Operator(id, name, binding, notation, symbol, arity, description, comment);
+        Operator operator = new Operator(id, name, binding, notation, symbol, symbol_intern, arity, description, comment);
         return operator;
     }
     
     
-    public Set<Operator> getOperatorsByString(String type) {
-        String sql = "SELECT b.id, a.name, a.binding, a.notation, a.symbol, b.arity, b.description, b.comment FROM operator_syntax_format a, operator b WHERE a.name = ? AND a.operator_id=b.id";      
+    public Set<Operator> getOperatorsByName(String name) {
+        String sql = "SELECT b.id, a.name, a.binding, a.notation, a.symbol, b.symbol_intern, b.arity, b.description, b.comment FROM operator_syntax_format a, operator b WHERE a.name = ? AND a.operator_id=b.id";      
         Connection connection = null;
         try
         {
             connection = factory.open();
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, type);
+            st.setString(1, name);
             ResultSet rs = st.executeQuery();
             Set<Operator> operators = new HashSet<Operator>();
             while ( rs.next() )
