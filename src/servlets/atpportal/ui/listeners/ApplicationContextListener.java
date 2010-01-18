@@ -38,12 +38,12 @@ public class ApplicationContextListener implements ServletContextListener
 	
 	
 	// Parse the QueueWorker Parameter
-	int queueworker = 2;
+	int queueworker = 2; // 2 has no special meaning, its just the fallback value if no value was provided
 	String queueWorkerString = sc.getInitParameter("queue-worker");
 	
 	if ( queueWorkerString.equals("BY_PROCESSORS")) {
 	    queueworker = Math.max(1, Runtime.getRuntime().availableProcessors());
-	} else {
+	} else if ( null != queueWorkerString ) {
 	    try {
 		queueworker = Integer.parseInt(queueWorkerString);
 	    } catch (Exception exc) {

@@ -54,7 +54,12 @@
 		<url-pattern>/atp/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-        <filter-mapping>
+	<filter-mapping>
+		<filter-name>AdminAuthorizationFilter</filter-name>
+		<url-pattern>/formula/makeAxiom.json</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
 		<filter-name>AdminAuthorizationFilter</filter-name>
 		<url-pattern>/account/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
@@ -77,6 +82,11 @@
         <filter-mapping>
 		<filter-name>NormalAuthorizationFilter</filter-name>
 		<url-pattern>/queue/new</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>NormalAuthorizationFilter</filter-name>
+		<url-pattern>/formula/update.json</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 
@@ -117,6 +127,17 @@
                 <param-name>org.tptp.model.postgres.password</param-name>
                 <param-value>postgres</param-value>
         </context-param>
+	
+	<context-param>
+		<!--
+		  - How many parallel jobs should be executed to look for QUEUED jobs?
+		  - 
+		  - Allowed values are integers and 'BY_PROCESSORS'
+		  -  BY_PROCESSORS = min(1, availableProcessors() -1 )
+		  -->
+		<param-name>queue-worker</param-name>
+		<param-value>15</param-value>
+	</context-param>
         
         
         

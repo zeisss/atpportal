@@ -89,7 +89,7 @@
     
     $("#formula_save").attr("disabled", "disabled");
     
-    $.post("<c:url value='/formula/update' />", form, callback, "json"); 
+    $.post("<c:url value='/formula/update.json' />", form, callback, "json"); 
     return false;
   }
   
@@ -263,6 +263,39 @@
     loadFormula(<jsp:include page='json.jsp' />);
    </c:if>
    
+   <c:if test="${user_role == 'admin'}">
+    $("#make_algebra_action").click(function() {
+     
+     
+     algebra_id = $("#make_algebra_select").val();
+     formula_id = $("#formula_id").attr("value");
+     
+     $("#make_algebra_status").text("Updating axiom status ...");
+     
+     jQuery.post(
+      "<c:url value='/formula/makeAxiom.json' />",
+      {
+       'algebra_id': algebra_id,
+       'formula_id': formula_id
+      },
+      function(data) {
+       if ( data.type == "OK") {
+         $("#make_algebra_status").text("OK!");
+       } else {
+         span = $("#make_algebra_status");
+         span.text("Error: ");
+         for ( x in data.messages ) {
+            span.append(data.message[x] + " - ");
+         }
+       }
+      },
+      "json"     
+     );
+     
+     
+     return false;
+    });
+   </c:if>
   });
  </script>
 
@@ -328,7 +361,7 @@
  <div id="formula_box" class="box" style="width:98%">
       <span class="title">Formula</span>
       <div class="buttonbar">
-          <button id="formula_save">Save</button>
+          
           <%--
           <button id="formula_export_pdf">PDF</button>
           <button id="formula_export_mathml">MathML</button>
@@ -337,6 +370,7 @@
             <button id="formula_delete">Delete</button>
           </c:if>
           <c:if test="${user_role == 'normal' || user_role == 'admin'}">
+            <button id="formula_save">Save</button>
             <button id="formula_proof">Prove</button>
           </c:if>
       </div>
@@ -363,6 +397,17 @@
             <span></span>
           </div>
           
+          <c:if test="${user_role == 'admin'}">
+           <div id="make_algebra">
+             <select id="make_algebra_select">
+               <c:forEach var="algebra" items="${algebren}" varStatus="rowCounter">
+                <option value="${algebra.id}">${algebra.name}</option>
+               </c:forEach>
+             </select>
+             <button id="make_algebra_action">Make algebra</button>
+             <span id="make_algebra_status"></span>
+           </div>
+          </c:if>
       </div>
  </div>
  

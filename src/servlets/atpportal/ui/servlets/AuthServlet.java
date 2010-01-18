@@ -1,6 +1,6 @@
 package atpportal.ui.servlets;
 
-import org.tptp.*;
+import atpportal.ui.*;
 import org.tptp.model.*;
 
 import javax.servlet.*;

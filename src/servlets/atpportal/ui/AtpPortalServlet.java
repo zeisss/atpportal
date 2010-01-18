@@ -1,7 +1,9 @@
 package atpportal.ui;
 
 import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
 
@@ -10,6 +12,21 @@ import java.util.*;
  * some minor utility functions for redirecting and sending messages to the user.
  */
 public class AtpPortalServlet extends HttpServlet {
+    /**
+     * Utility function for reporting an error. The developer can write its code in a simple try+catch block and part the
+     * exception to this method, which handles the rest:
+     * <ul>
+     *   <li>Logging the error
+     *   <li>Presenting the user an exception page with a continue button.
+     * </ul>
+     *
+     * @param t the exception to handle
+     * @param request
+     * @param response
+     * @param newUrl Where the user should be redirected to (via GET), after the error page was shown.
+     *
+     * TODO: Add a debug parameter to the web.xml and do NOT show the error page if this is false
+     */
     protected void handleException(Throwable t, HttpServletRequest request, HttpServletResponse response, String newUrl)
         throws ServletException, IOException
     {
@@ -19,6 +36,33 @@ public class AtpPortalServlet extends HttpServlet {
         request.setAttribute("new_url", newUrl);
         
         RequestDispatcher rd = request.getRequestDispatcher("/error-page.jsp");
+        rd.include(request, response);   
+    }
+    
+    /**
+     * Shows a standard JSON "OK" message to the user. See the json-result.jsp in the views folder.
+     */
+    protected void handleJSONResult(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        handleJSONResult(request, response, null);
+    }
+    
+    /**
+     * Sames as the {@link #handleJSONResult(HttpServletRequest, HttpServletResponse)} method but with an extra
+     * Throwable object which should be logged as an error in the json output.
+     *
+     * @see #handleJSONResult(HttpServletRequest, HttpServletResponse)
+     */
+    protected void handleJSONResult(HttpServletRequest request, HttpServletResponse response, Throwable t)
+        throws ServletException, IOException
+    {
+        if ( t != null ) {
+            log("Error in " + request.getRequestURI(), t);
+        
+            request.setAttribute("exception", t);
+        }
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/views/json-result.jsp");
         rd.include(request, response);   
     }
     

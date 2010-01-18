@@ -5,7 +5,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
 
-import org.tptp.*;
+import atpportal.ui.AuthHelper;
 import org.tptp.model.Account;
 
 /**
@@ -47,7 +47,8 @@ public final class AuthorizationFilter implements Filter {
         
         if ( !AuthHelper.isMinimumLevel(req, this.minimumLevel)) {
             res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                
+            
+            // TODO: forward to the proper url after authorization
             RequestDispatcher rd = request.getRequestDispatcher("/auth/login");
     
             // Forward to requested URL

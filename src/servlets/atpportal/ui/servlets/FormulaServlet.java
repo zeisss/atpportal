@@ -1,6 +1,6 @@
 package atpportal.ui.servlets;
 
-import org.tptp.*;
+import atpportal.ui.*;
 import org.tptp.model.*;
 
 import java.util.*;
@@ -16,9 +16,9 @@ public class FormulaServlet extends AtpPortalServlet {
         if ( requestURI.endsWith("/formula/delete")) {
             doPostDelete(request, response);
         }
-        else if ( requestURI.endsWith("/formula/update")) {
+        else if ( requestURI.endsWith("/formula/update.json")) {
             doPostUpdate(request, response);
-        } else if ( requestURI.endsWith("/formula/makeAxiom")) {
+        } else if ( requestURI.endsWith("/formula/makeAxiom.json")) {
             doPostMakeAxiom(request,response);
         }
     }
@@ -26,25 +26,53 @@ public class FormulaServlet extends AtpPortalServlet {
     public void doPostMakeAxiom(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+        final String formula_id = request.getParameter("formula_id");
+        final String algebra_id = request.getParameter("algebra_id");
         
+        final FormulaRepository fRepo = FormulaRepository.getInstance();
+        final AlgebraRepository aRepo = AlgebraRepository.getInstance();
+        
+        try {
+            Algebra algebra = aRepo.get(Long.valueOf(algebra_id));
+            Formula f = fRepo.get(Long.valueOf(formula_id));
+            
+            if ( algebra == null ) {
+                throw new IllegalArgumentException("Algebra with ID " + algebra_id + " not found.");
+            }
+            if ( f == null ) {
+                throw new IllegalArgumentException("Formula with ID " + formula_id + " not found.");
+            }
+            
+            aRepo.link(algebra, f, true);
+            
+            handleJSONResult(request, response); // Prints "OK"
+        } catch (Throwable t) {
+            handleJSONResult(request, response, t); // Prints ERROR: ...
+        }
     }
     
     public void doPostDelete(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        FormulaRepository repo = FormulaRepository.getInstance();
         long id = Long.valueOf(request.getParameter("formula_id"));
-        Formula f = repo.get(id);
         
-        repo.delete(f);
+        final FormulaRepository repo = FormulaRepository.getInstance();
+        final Formula f = repo.get(id);
+        if ( f == null ) {
+            throw new IllegalArgumentException("Formula with given ID not found.");
+        }
+        
+        WorkManager.run(new Runnable() { public void run() {
+            repo.delete(f);
+        }});
         
         redirectTo("/formula/", request, response);
     }
-    public void doPostUpdate(HttpServletRequest request, HttpServletResponse response)
+    public void doPostUpdate(final HttpServletRequest request, final HttpServletResponse response)
         throws ServletException, IOException
     {
         try {
-            FormulaRepository repo = FormulaRepository.getInstance();
+            final FormulaRepository repo = FormulaRepository.getInstance();
             
             // Get the form data
             String id = request.getParameter("formula_id");
@@ -52,66 +80,62 @@ public class FormulaServlet extends AtpPortalServlet {
                 throw new IllegalArgumentException("Formula ID is empty or not given.");
             }
             
-            Formula formula = repo.get(Long.valueOf(id));
-            
-            
-            // Update: Normal head data
-            String name = request.getParameter("formula_name");
-            String comment = request.getParameter("formula_comment");
-            
+            final Formula formula = repo.get(Long.valueOf(id));
             if ( formula == null ) {
                 throw new IllegalArgumentException("Formula with ID not found: " + id);
             }
-            if ( name != null )
-                formula.setName(name);
-             
-            if ( comment != null ) {
-                formula.setComment(comment);
-            }
             
-            
-            // Now the references
-            String[] refCounters = request.getParameterValues("formula_reference");
-            formula.clearReferences();
-            
-            if ( refCounters != null )
-            {
-                for ( String ref : refCounters ) {
-                    String abbr = request.getParameter("formula_reference_" + ref + "_abbr");
-                    String authors = request.getParameter("formula_reference_" + ref + "_authors");
-                    String title = request.getParameter("formula_reference_" + ref + "_title");
-                    String year = request.getParameter("formula_reference_" + ref + "_year");
-                    
-                    
-                    if ( "".equals(abbr))
-                        throw new IllegalArgumentException("Empty abbreviation is now allowed");
-                    
-                    
-                    int y = -1;
-                    try {
-                        y = Integer.valueOf(y);
-                    } catch(NumberFormatException exc2) {
-                        ; // IGNORE
-                    }
-                    
-                    FormulaReference obj = new FormulaReference(
-                        abbr,
-                        authors,
-                        title,
-                        y
-                    );
-                    formula.addReference(obj);
+            WorkManager.run(new Runnable() { public void run() {
+                
+                // Update: Normal head data
+                String name = request.getParameter("formula_name");
+                String comment = request.getParameter("formula_comment");
+                
+                if ( name != null ) {
+                    formula.setName(name);
+                }
+                if ( comment != null ) {
+                    formula.setComment(comment);
                 }
                 
-            }
-            repo.update(formula);
-            
-        } catch (Exception exc) {
-            log("Error in POST /formula/", exc);
-            addMessage(exc.getMessage(), request);
-            
+                // Now the references
+                String[] refCounters = request.getParameterValues("formula_reference");
+                formula.clearReferences();
+                
+                if ( refCounters != null )
+                {
+                    for ( String ref : refCounters ) {
+                        String abbr = request.getParameter("formula_reference_" + ref + "_abbr");
+                        String authors = request.getParameter("formula_reference_" + ref + "_authors");
+                        String title = request.getParameter("formula_reference_" + ref + "_title");
+                        String year = request.getParameter("formula_reference_" + ref + "_year");
+                        
+                        if ( "".equals(abbr))
+                            throw new IllegalArgumentException("Empty abbreviation is now allowed");
+                        
+                        int y = -1;
+                        try {
+                            y = Integer.valueOf(y);
+                        } catch(NumberFormatException exc2) {
+                            ; // IGNORE
+                        }
+                        
+                        FormulaReference obj = new FormulaReference(
+                            abbr,
+                            authors,
+                            title,
+                            y
+                        );
+                        formula.addReference(obj);
+                    }
+                }
+                repo.update(formula); 
+            }});
+            this.handleJSONResult(request, response);
+        } catch (Exception exc)
+        {
+            this.handleJSONResult(request, response, exc);
         }
-        includeView("formula/update-result.jsp", request, response);
     }
     
     public void doGet(HttpServletRequest request, HttpServletResponse response)
