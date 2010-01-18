@@ -7,6 +7,12 @@ Installation:
 4. Modify the /WEB-INF/web.xml(in the atpportal.war) init-params to use your database login
 5. Deploy the .war to tomcat instance
 
+
+Configuration:
+In the web.xml are some init-params which can be configured.
+org.tptp.model.* - Options how the backend reaches the Postgres Database
+queue-worker - How many workers should work on the queue. See the web.xml for details.
+
 License:
 Its GPLv2, see http://www.gnu.org/licenses/gpl-2.0.html
 The License applies to all files, except the .jar files in lib/, which have their own license.

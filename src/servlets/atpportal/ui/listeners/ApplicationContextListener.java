@@ -36,10 +36,26 @@ public class ApplicationContextListener implements ServletContextListener
             new PostgresRepositoryFactory (factory)
         );
 	
-	// Add n threads executing the background jobs where n is the number of processors, minimum 1
-	for ( int i = 0; i < Math.max(1, Runtime.getRuntime().availableProcessors());i++) {
+	
+	// Parse the QueueWorker Parameter
+	int queueworker = 2;
+	String queueWorkerString = sc.getInitParameter("queue-worker");
+	
+	if ( queueWorkerString.equals("BY_PROCESSORS")) {
+	    queueworker = Math.max(1, Runtime.getRuntime().availableProcessors());
+	} else {
+	    try {
+		queueworker = Integer.parseInt(queueWorkerString);
+	    } catch (Exception exc) {
+		sc.log("Unable to parse init-parameter 'queue-worker' (value: " + queueWorkerString +"); Using " + queueworker, exc);
+	    }        
+	}
+	
+	// Add n tasks executing the background jobs 
+	for ( int i = 0; i < queueworker;i++) {
 	    Timer t = new Timer("queuejob-executor-" + i, true);
 	    
+	    // TODO: This should be triggerable or sthg like that (A real QUEUE)
 	    t.scheduleAtFixedRate(new QueueJobWorker(sc), i * 5000, 30*1000);
 	    
 	    timers.add(t);
