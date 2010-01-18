@@ -19,13 +19,27 @@ public abstract class AlgebraRepository {
      */
     public abstract void link(Algebra algebra, Formula formula, boolean axiom);
     
+    /**
+     * Deletes any link between the algebra and the formula (axiom or theorem link).
+     *
+     * @see #link(Algebra, Formula, boolean)
+     */
     public abstract void unlink(Algebra algebra, Formula formula);
     
-    
+    /**
+     * Returns an instance of the algebra stored in the backend with the given ID.
+     */
     public abstract Algebra get(long i);
+    
+    /**
+     * Returns a set of all algebras.
+     */
     public abstract Set<Algebra> getAll();
     
     /**
+     * Returns a set of algebras where the given formula is an axiom.
+     *
+     * @see #link(Algebra, Formula, boolean)
      * @see #getAlgebrenForAxiom(long)
      */
     public Set<Algebra> getAlgebrenForAxiom(Formula f) {
