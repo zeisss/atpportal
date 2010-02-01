@@ -15,7 +15,7 @@
     </style>
     <script>
         function selectAlgebra() {
-            id = $(this).attr("id").substring("algbera-".length);
+            id = $(this).attr("id").substring("algebra-".length);
             name = $(".algebra_name", this).text()
             
             
