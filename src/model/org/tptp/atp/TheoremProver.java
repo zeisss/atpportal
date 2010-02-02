@@ -54,7 +54,7 @@ public abstract class TheoremProver {
         throws AtpException;
     
     /**
-     * Returns a {@link java.util.Map} containing a list of keys which should be filled into a {@link Properties}Êobject
+     * Returns a {@link java.util.Map} containing a list of keys which must be filled into a {@link Properties}Êobject
      * when calling the <code>execute()</code> method.
      */
     public Map<String,String> getOptionDescriptionMap() {

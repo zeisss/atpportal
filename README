@@ -16,3 +16,8 @@ queue-worker - How many workers should work on the queue. See the web.xml for de
 License:
 Its GPLv2, see http://www.gnu.org/licenses/gpl-2.0.html
 The License applies to all files, except the .jar files in lib/, which have their own license.
+
+
+Note:
+If you change the META-INF/services/org.tptp.atp.TheoremProver list, make sure to restart the VM,
+as a change is not detected while redeploying.

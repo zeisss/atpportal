@@ -6,7 +6,7 @@ package org.tptp.model;
  *
  * Example:
  * <pre><code>
- *  Algebra algebra = ...
+ *  final Algebra algebra = ...
  *  WorkManager.run(new Runnable() { public void run() {
  *    Formula f = new Formula("Zeissler_1", "x = y");
  *    FormulaRepo.getInstance().save(f);
@@ -34,10 +34,13 @@ public class WorkManager {
      *
      * @see #getCurrentTransaction()
      * @see Transaction
-     */
+     */ 
     public static void run(Runnable run) {
         // Create a new transaction object
         Transaction t = RepositoryFactory.getInstance().createTransaction();
+        if ( t == null ) {
+            throw new IllegalStateException("Unable to get a new transaction object from RepositoryFactory.");
+        }
         transaction.set(t); // Store the transaction for the getter method
         
         try {

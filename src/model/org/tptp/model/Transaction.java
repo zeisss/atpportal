@@ -12,7 +12,8 @@ public interface Transaction {
     public void beginTransaction();
     
     /**
-     * Close this transaction and free underlying resources. 
+     * Close this transaction and free underlying resources.
+     * Commit() or rollback() must have been called before.
      */
     public void endTransaction();
     
