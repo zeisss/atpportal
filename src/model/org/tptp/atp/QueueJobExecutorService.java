@@ -32,6 +32,8 @@ public class QueueJobExecutorService {
             if ( result.isSuccessfull()) {
                 job.setStatus(QueueJob.STATUS_PROCESSED);
                 job.setMessage("Success!");
+                job.setInputText(result.getInputText());
+                job.setOutputText(result.getOutputText());
                 jobRepo.update(job);
                 
                 storeProof(job, result);    
@@ -102,8 +104,6 @@ public class QueueJobExecutorService {
             
             // Now link it to the queue
             job.setProofId(proof.getId());
-            job.setInputText(result.getInputText());
-            job.setOutputText(result.getOutputText());
             jobRepo.update(job);
             
             // Now, iterate over the used and proves formulas and

@@ -42,6 +42,7 @@ public abstract class TheoremProver {
     
     /**
      * Return true if this prover can really proof or false if this prover only tries a proof of the contrary.
+     * If this is not a real theorem prover, no result will be saved in the backend.
      */
     public abstract boolean isProver();
     
