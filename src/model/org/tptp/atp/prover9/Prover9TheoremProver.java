@@ -79,16 +79,18 @@ public class Prover9TheoremProver extends TheoremProver {
         Set<ProofStep> steps = new HashSet<ProofStep>();
         
         // Build the commandline call (no OS dependent stuff here!)
-        String call = properties.getProperty("path", "");
-        if ( !call.endsWith(File.separator)) {
-            call += File.separator;
+        StringBuilder call = new StringBuilder();
+        String path = properties.getProperty("path", "");
+        call.append(path);
+        if ( !"".equals(path) && !path.endsWith(File.separator)) {
+            call.append(File.separator);
         }
-        call += properties.getProperty("binary", DEFAULT_BINARY);
-        call += " -t " + properties.getProperty("max_seconds", DEFAULT_MAX_SECONDS);
-        call += " -f " + inputFile.getCanonicalPath();
+        call.append(properties.getProperty("binary", DEFAULT_BINARY));
+        call.append(" -t ").append(properties.getProperty("max_seconds", DEFAULT_MAX_SECONDS));
+        call.append(" -f ").append(inputFile.getCanonicalPath());
         
         // Start the process
-        Process p = Runtime.getRuntime().exec(call);
+        Process p = Runtime.getRuntime().exec(call.toString());
         try {
             // Start a separate thread for fetching the output
             Thread t = new OutputReaderThread(p.getInputStream(), output);
