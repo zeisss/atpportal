@@ -15,7 +15,7 @@ queue-worker - How many workers should work on the queue. See the web.xml for de
 
 License:
 Its GPLv2, see http://www.gnu.org/licenses/gpl-2.0.html
-The License applies to all files, except the .jar files in lib/, which have their own license.
+The License applies to all files, except the .jar files in lib/ and the jquery files in public_html/js/, which have their own license.
 
 
 Note:
