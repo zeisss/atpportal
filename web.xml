@@ -19,11 +19,16 @@
         <!-- Listeners --> 
         <!-- ========================================================== --> 
         <listener>
-                <!-- This listener initializes the tptp model, so that the servlets can use it -->
+                <!-- This listener starts the timers, so the ATPs are run -->
                 <!-- See the context params below -->
                 <listener-class>atpportal.ui.listeners.ApplicationContextListener</listener-class> 
         </listener> 
         <listener>
+                <!-- This listener initializes the tptp model, so that the servlets can use it -->
+                <!-- See the context params below -->
+                <listener-class>atpportal.ui.listeners.ModelInitalizationListener</listener-class> 
+        </listener>
+	<listener>
                 <listener-class>atpportal.ui.listeners.RoleSetterListener</listener-class> 
         </listener> 
         <!-- ========================================================== --> 

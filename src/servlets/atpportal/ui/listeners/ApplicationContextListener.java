@@ -3,41 +3,28 @@ package atpportal.ui.listeners;
 import javax.servlet.http.*;;
 import javax.servlet.*;
 
-import org.tptp.model.*;
-import org.tptp.model.postgres.*;
 import org.tptp.atp.*;
+import org.tptp.model.ModelException;
 
 import java.util.*;
 
 /**
  * Application startup/shutdown listener, configured in the web.xml file.
+ *
+ * @see java.util.Timer
+ * @see org.tptp.atp.QueueJobExecutorService
  */
 public class ApplicationContextListener implements ServletContextListener
 {
-    private DefaultConnectionFactory factory;
     private List<Timer> timers = new LinkedList<Timer>();
     
     /**
      * Application Startup Event
      */
     public void	contextInitialized(ServletContextEvent ce) {
-        Properties prop = new Properties();
 	ServletContext sc = ce.getServletContext();
-        prop.setProperty("jdbc.string", sc.getInitParameter("org.tptp.model.postgres.string"));
-	prop.setProperty("jdbc.class", sc.getInitParameter("org.tptp.model.postgres.class"));
-	prop.setProperty("jdbc.username", sc.getInitParameter("org.tptp.model.postgres.username"));
-	prop.setProperty("jdbc.password", sc.getInitParameter("org.tptp.model.postgres.password"));
 	
-        // TODO: Replace with a DataSource or sthg like that
-        factory = new DefaultConnectionFactory(prop);
-        
-        // Initialize the model, so it finds the database backend
-	RepositoryFactory.setInstance(
-            new PostgresRepositoryFactory (factory)
-        );
-	
-	
-	// Parse the QueueWorker Parameter
+        // Parse the QueueWorker Parameter
 	int queueworker = 2; // 2 has no special meaning, its just the fallback value if no value was provided
 	String queueWorkerString = sc.getInitParameter("queue-worker");
 	
@@ -63,16 +50,14 @@ public class ApplicationContextListener implements ServletContextListener
     }
 
     /**
-     * Called by the webcontainer when the application is shutdown. It closes the database backend connection.
+     * Called by the webcontainer when the application is shutdown. It stops the timers.
      */
     public void	contextDestroyed(ServletContextEvent ce) {
 	for ( Timer t : timers) {
 	    t.cancel();
 	}
-        factory.shutdown();
     }
-    
-    
+
     class QueueJobWorker extends TimerTask
     {
 	private ServletContext sc;
