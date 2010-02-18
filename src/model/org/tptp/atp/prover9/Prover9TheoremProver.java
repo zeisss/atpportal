@@ -77,11 +77,13 @@ public class Prover9TheoremProver extends TheoremProver {
         Set<Formula> proved = new HashSet<Formula>();
         Map<String,String> details = new HashMap<String,String>();
         Set<ProofStep> steps = new HashSet<ProofStep>();
+        int exitCode = -1;
         
         // Build the commandline call (no OS dependent stuff here!)
         StringBuilder call = new StringBuilder();
         String path = properties.getProperty("path", "");
         call.append(path);
+        // if no path is given, do NOT add the separator, else do it, if its missing
         if ( !"".equals(path) && !path.endsWith(File.separator)) {
             call.append(File.separator);
         }
@@ -95,20 +97,19 @@ public class Prover9TheoremProver extends TheoremProver {
             // Start a separate thread for fetching the output
             Thread t = new OutputReaderThread(p.getInputStream(), output);
             t.start();
-            int exitCode = p.waitFor(); // Block until the prover is ready
-            
-            // Call the output parser
-            parseOutput(output, used, proved, steps, details);
-            
-            // Create the result object
-            if ( exitCode == 0 ) {
-                return new Result(true, used, proved, steps, details, this, input, output.toString());    
-            } else {
-                return new Result(false, new AtpException("Exitcode: " + exitCode), this, input, output.toString());
-            }
-            
+            exitCode = p.waitFor(); // Block until the prover is ready
         } catch (InterruptedException exc) {
             throw new IOException(exc);
+        }
+        
+        // Call the output parser
+        parseOutput(output, used, proved, steps, details);
+        
+        // Create the result object
+        if ( exitCode == 0 ) {
+            return new Result(true, used, proved, steps, details, this, input, output.toString());    
+        } else {
+            return new Result(false, new AtpException("Exitcode: " + exitCode), this, input, output.toString());
         }
     }
     
