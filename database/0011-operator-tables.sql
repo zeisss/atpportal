@@ -14,7 +14,7 @@ CREATE TABLE algebra_operator
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE algebra_operator OWNER TO zeisss;
+ALTER TABLE algebra_operator OWNER TO atpportal;
  -- Table: "operator"
 
 -- DROP TABLE "operator";
@@ -32,7 +32,7 @@ CREATE TABLE "operator"
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE "operator" OWNER TO zeisss;
+ALTER TABLE "operator" OWNER TO atpportal;
 
 -- Table: operator_syntax_format
 
@@ -53,5 +53,5 @@ CREATE TABLE operator_syntax_format
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE operator_syntax_format OWNER TO zeisss;
+ALTER TABLE operator_syntax_format OWNER TO atpportal;
 
