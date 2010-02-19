@@ -4,6 +4,7 @@ import javax.servlet.http.*;;
 import javax.servlet.*;
 
 import org.tptp.model.*;
+import org.tptp.model.jdbc.DefaultConnectionFactory;
 import org.tptp.model.postgres.*;
 import org.tptp.atp.*;
 

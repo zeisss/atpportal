@@ -4,10 +4,11 @@ import java.io.*;
 import java.util.*;
 import org.junit.*;
 import org.tptp.model.postgres.*;
+import org.tptp.model.jdbc.*;
 
 public abstract class AbstractModelTest
 {
-    private static DefaultConnectionFactory factory;
+    private static SimplePooledConnectionFactory factory;
     
     @BeforeClass
     public static void setUpModel() {
@@ -18,7 +19,7 @@ public abstract class AbstractModelTest
             } catch (IOException exc) {
                 throw new IllegalStateException(exc);
             }
-            factory = new DefaultConnectionFactory(prop);
+            factory = new SimplePooledConnectionFactory(prop);
             RepositoryFactory.setInstance(new PostgresRepositoryFactory(factory));
         }
         
@@ -27,6 +28,7 @@ public abstract class AbstractModelTest
     
     @AfterClass
     public static void tearDownModel() {
+        Assert.assertEquals(0, factory.getReturnedConnections().size());
         factory.shutdown();
         factory = null;
     }

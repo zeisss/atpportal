@@ -4,6 +4,7 @@ import java.util.*;
 import java.sql.*;
 
 import org.tptp.model.*;
+import org.tptp.model.jdbc.ConnectionFactory;
 
 public class PostgresOperatorRepository extends OperatorRepository {
     private ConnectionFactory factory;

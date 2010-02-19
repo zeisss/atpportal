@@ -1,7 +1,7 @@
 package org.tptp.model.postgres;
 
 import org.tptp.model.*;
-
+import org.tptp.model.jdbc.ConnectionFactory;
 
 /**
  * The RepositoryFactory implementation for the org.tptp.model.postgres package.

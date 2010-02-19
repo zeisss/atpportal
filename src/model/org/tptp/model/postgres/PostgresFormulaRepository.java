@@ -3,6 +3,7 @@ package org.tptp.model.postgres;
 import java.sql.*;
 import org.tptp.model.*;
 import java.util.*;
+import org.tptp.model.jdbc.ConnectionFactory;
 
 public class PostgresFormulaRepository extends FormulaRepository{
     private ConnectionFactory factory;

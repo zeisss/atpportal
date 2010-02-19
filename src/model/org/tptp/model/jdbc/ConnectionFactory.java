@@ -1,4 +1,4 @@
-package org.tptp.model.postgres;
+package org.tptp.model.jdbc;
 
 import java.sql.*;
 import java.util.*;

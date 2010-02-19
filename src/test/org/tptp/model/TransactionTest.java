@@ -32,20 +32,25 @@ public class TransactionTest extends AbstractModelTest {
             assertNull(atp2);
         }});
     }
-    
+
     private long atpId;
     
     @Test
-    public void testTransactionSimple2() {
+    public void testTransactionSimpleCommit() {
+        
+        
         final AtpRepository repo = AtpRepository.getInstance();
         assertNotNull("ATP Repo must not be null", repo);
         
         assertNull(WorkManager.getCurrentTransaction());
         WorkManager.run(new Runnable() { public void run() {
+            assertNotNull(WorkManager.getCurrentTransaction());
+            
             Atp atp = new Atp("Prover 9 TEST2222", "Prover9", "1.0");
             atp.setOption("path", "/bin");
             repo.save(atp);
             atpId = atp.getId();
+            //System.out.println("TransactionTest->commit: Saved id: " + atpId);
         }});
         assertNull(WorkManager.getCurrentTransaction());
         

@@ -5,6 +5,7 @@ import org.tptp.model.*;
 import javax.sql.*;
 import java.sql.*;
 import java.util.*;
+import org.tptp.model.jdbc.ConnectionFactory;
 
 public class PostgresAlgebraRepository extends AlgebraRepository
 {
