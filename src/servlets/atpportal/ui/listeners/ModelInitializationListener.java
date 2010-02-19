@@ -4,8 +4,9 @@ import javax.servlet.http.*;;
 import javax.servlet.*;
 
 import org.tptp.model.*;
-import org.tptp.model.jdbc.DefaultConnectionFactory;
+// import org.tptp.model.jdbc.DefaultConnectionFactory;
 import org.tptp.model.postgres.*;
+import org.tptp.model.jdbc.SimplePooledConnectionFactory;
 import org.tptp.atp.*;
 
 import java.util.*;
@@ -21,7 +22,7 @@ import java.util.*;
  */
 public class ModelInitializationListener implements ServletContextListener
 {
-    private DefaultConnectionFactory factory;
+    private SimplePooledConnectionFactory factory;
     
     /**
      * Application Startup Event
@@ -36,7 +37,7 @@ public class ModelInitializationListener implements ServletContextListener
 	prop.setProperty("jdbc.password", sc.getInitParameter("org.tptp.model.postgres.password"));
 	
         // TODO: Replace with a DataSource or sthg like that
-        factory = new DefaultConnectionFactory(prop);
+        factory = new SimplePooledConnectionFactory(prop);
         
         // Initialize the model, so it finds the database backend
 	RepositoryFactory.setInstance(
