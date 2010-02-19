@@ -26,7 +26,7 @@
         <listener>
                 <!-- This listener initializes the tptp model, so that the servlets can use it -->
                 <!-- See the context params below -->
-                <listener-class>atpportal.ui.listeners.ModelInitalizationListener</listener-class> 
+                <listener-class>atpportal.ui.listeners.ModelInitializationListener</listener-class> 
         </listener>
 	<listener>
                 <listener-class>atpportal.ui.listeners.RoleSetterListener</listener-class> 
