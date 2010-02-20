@@ -96,7 +96,7 @@
   <war destfile="atpportal.war" webxml="web.xml" basedir="${build.dir}/web" />
  </target>
  
- <target name="test" depends="clean, build" description="Run the tests in test/">
+ <target name="test" depends="build" description="Run the tests in test/">
   
   <javac debug="${javac.debug}" target="${compile.target}" destdir="${build.dir}/test" srcdir="src/test/" classpathref="classpath"/>
   
@@ -126,7 +126,7 @@
   </junit>
  </target>
  
- <target name="deploy" depends="build" description="Copies the war archive to a tomcat webapp folder">
+ <target name="deploy" depends="clean, build" description="Copies the war archive to a tomcat webapp folder">
    <delete dir="${deploy.path}/${deploy.name}" />
    <copy todir="${deploy.path}" file="atpportal.war" />
  </target>

@@ -7,7 +7,7 @@ package org.tptp.model;
  */
 public interface Transaction {
     /**
-     *
+     * Notify the system, that this transaction is about to be used.
      */
     public void beginTransaction();
     

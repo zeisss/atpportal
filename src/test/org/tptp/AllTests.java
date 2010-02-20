@@ -9,7 +9,9 @@ import org.junit.runners.Suite;
   org.tptp.model.AllTests.class,
   org.tptp.atp.Prover9TheoremProverTest.class,
   org.tptp.atp.Prover9OutputParserTest.class,
-  org.tptp.atp.JobExecutorTest.class
+  org.tptp.atp.JobExecutorTest.class,
+  
+  atpportal.tags.DumpTagTest.class
 })
 public class AllTests {
     // why on earth I need this class, I have no idea! 

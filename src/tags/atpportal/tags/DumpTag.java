@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  * </ul>
  */
 public class DumpTag extends SimpleTagSupport {
-    public static String HTML_PATTERN = "\\<.*?\\>";
+    public static String HTML_PATTERN = "\\</?[a-zA-Z]+.*?\\>";
     private String value, mode;
     
     public void setValue(String s) {
@@ -36,10 +36,18 @@ public class DumpTag extends SimpleTagSupport {
         }
     }
     
+    /**
+     * Escapes the given string so it can be embedded as a string in JavaScript
+     */
     public static String escapeJS(String value) {
         return "\"" + StringEscapeUtils.escapeJavaScript(value) + "\"";
     }
     
+    /**
+     * Returns the String with all html tags removed and special chars replaces
+     * with their html entities.
+     *
+     */
     public static String escapeHTML(String value) {
         return StringEscapeUtils.escapeHtml(value.replaceAll(HTML_PATTERN, ""));
     }
