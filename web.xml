@@ -112,23 +112,23 @@
         <!-- Context Parameters --> 
         <!-- ========================================================== -->
         <context-param>
-                <description>The connection string for the database backend</description>
-                <param-name>org.tptp.model.postgres.string</param-name>
+                <!-- The connection string for the database backend -->
+		<param-name>org.tptp.model.postgres.string</param-name>
                 <param-value>jdbc:postgresql://[::1]:5432/atpportal</param-value>
         </context-param>
         
         <context-param>
-                <description>The driver class for the jdbc database backend</description>
+                <!-- The driver class for the jdbc database backend -->
                 <param-name>org.tptp.model.postgres.class</param-name>
                 <param-value>org.postgresql.Driver</param-value>
         </context-param>
         <context-param>
-                <description>The username for the database backend</description>
+                <!-- The username for the database backend -->
                 <param-name>org.tptp.model.postgres.username</param-name>
                 <param-value>postgres</param-value>
         </context-param>
         <context-param>
-                <description>The password string for the database backend</description>
+                <!-- The password string for the database backend -->
                 <param-name>org.tptp.model.postgres.password</param-name>
                 <param-value>postgres</param-value>
         </context-param>
