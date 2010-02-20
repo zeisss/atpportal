@@ -33,7 +33,7 @@
         function selectFormula() {
             id = $(this).attr("id").substring("formula-".length);
             
-            window.location = "<c:url value='/formula' />/" + id;
+            window.location.href = "<c:url value='/formula/' />#" + id;
         }
         $(document).ready(function() {
             $(".algebra").click(selectAlgebra);

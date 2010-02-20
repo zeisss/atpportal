@@ -19,6 +19,8 @@
   function reference_delete() {
    $(this).parent().parent().remove();
   }
+  
+  // Adds a new row in the reference table
   function reference_add(abbr, authors, title, year) {
    cnt = ref_cnt++;
    $("#reference_body").append("<tr><input type=hidden name=formula_reference value=\"" + cnt + "\" />" +
@@ -30,6 +32,8 @@
      "</tr>");
   }
   
+  
+  // Execute the search for formulas
   function executeSearch() {
     // Clear formula listmodel
     $(".formula").remove();
@@ -54,15 +58,13 @@
     return false;
   }
   
+  
+  
+  
   function formulaSelected() {
-    
-      id = $(this).attr("id").substring("formula-".length);
+     var id = $(this).attr("id").substring("formula-".length);
       
-      url = "<c:url value='/formula/' />" + id + ".json";
-      $.getJSON(url, function(data) {
-        loadFormula(data); 
-      }); 
-    
+     loadFormula(id);  
   }
   
   // Saves the current form to the server
@@ -93,7 +95,19 @@
     return false;
   }
   
-  function loadFormula(formula)
+  // Loads the json data for a formula with the given ID and loads it into the form.
+  function loadFormula(id ) {
+    var baseUrl = "<c:url value='/formula/' />";
+    var url = baseUrl + id + ".json";
+    $.getJSON(url, function(data) {
+        loadFormula_callback(data); 
+    });
+      
+    window.location = baseUrl + '#' + id;
+  }
+  
+  
+  function loadFormula_callback(formula)
   {
     // Main data
     $("#formula_id").attr("value", formula.id);
@@ -241,6 +255,8 @@
      return executeSearch();
    });
    $("#formula_search").click(executeSearch);
+   
+   
    $(".formula").live("click", formulaSelected);
    
    // Prevent pressing enter in the filter box
@@ -260,10 +276,21 @@
    setFormulaMaskActive(false);
    
    <c:if test="${formula != null}">
-    loadFormula(<jsp:include page='json.jsp' />);
+    // If the URL is in the form /formula/<id>
+    // load the ID by including the json representation
+    loadFormula_callback(<jsp:include page='json.jsp' />);
+   </c:if>
+   
+   <c:if test="${formula == null}">
+     // if the url is in the form /formula/#<id>
+     // load the given id
+     var id = window.location.hash.substr(1);
+     loadFormula(id);
    </c:if>
    
    <c:if test="${user_role == 'admin'}">
+    // Add a click handler for admins
+    // which makes the formula an axiom
     $("#make_algebra_action").click(function() {
      
      
