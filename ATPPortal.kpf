@@ -4,7 +4,4 @@
 <preference-set idref="68297483-4660-534c-a96f-65bc23b0281f">
   <boolean id="import_live">1</boolean>
 </preference-set>
-<preference-set idref="68297483-4660-534c-a96f-65bc23b0281f/src/model/org/tptp/model/postgres/DefaultConnectionFactory.java">
-  <string id="spellcheckLangID">en-US</string>
-</preference-set>
 </project>
