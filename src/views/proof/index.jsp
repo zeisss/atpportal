@@ -36,7 +36,7 @@
         $(document).ready(function() {
             $("button.formula_view").click(function() {
                 id = $(this).parent().parent().attr("id").substring("formula-".length);
-                window.location = "<c:url value='/formula/' />" + id;
+                window.location = "<c:url value='/formula/' />#" + id;
             });
         });
     </script>
