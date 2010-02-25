@@ -18,6 +18,8 @@ public class PostgresQueueJobRepository extends QueueJobRepository {
         }
         this.factory = factory;
     }
+    
+    
     public void storeInputFormula(QueueJob job, Formula f) {
         if ( job == null || job.getId() == -1 ) {
             throw new IllegalArgumentException("QueueJob is null or not saved.");

@@ -82,10 +82,8 @@ public class Prover9TheoremProver extends TheoremProver {
         // Build the commandline call (no OS dependent stuff here!)
         StringBuilder call = new StringBuilder();
         String path = properties.getProperty("path", "");
-        call.append(path);
-        // if no path is given, do NOT add the separator, else do it, if its missing
-        if ( !"".equals(path) && !path.endsWith(File.separator)) {
-            call.append(File.separator);
+        if ( !"".equals(path)) {
+            call.append(path).append("/");
         }
         call.append(properties.getProperty("binary", DEFAULT_BINARY));
         call.append(" -t ").append(properties.getProperty("max_seconds", DEFAULT_MAX_SECONDS));

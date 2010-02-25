@@ -6,6 +6,9 @@
 </jsp:include>
   
  <script>
+  /**
+   * Helper class for the formula and selected-formula lists.
+   */ 
   function listmodel(htmlid, p_add_to_form) {
     obj = {
       "html_id": htmlid,
@@ -159,7 +162,7 @@
     
     $("button#formula_search").click(filterAlgebras);
     
-    // PRevent pressing enter in the filter box
+    // Prevent pressing enter in the filter box
     $("#filter").keypress(function (e) {
       if ( e.which == 13 ) {
          return filterAlgebras();
@@ -208,7 +211,7 @@
              
                <table style="width:100%; height:300px">
                 <tr style="height:30px">
-                 <td>
+                 <td colspan="2">
                      <div>
                         <label>Algebra</label>
                         <select id="algebra">
